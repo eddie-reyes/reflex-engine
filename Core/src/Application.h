@@ -1,8 +1,9 @@
 #pragma once
 
 #include "raylib.h"
+#include "Layer.h"
 #include <cassert>
-#include <stack>
+#include <deque>
 #include <memory>
 
 namespace Core {
@@ -20,17 +21,27 @@ namespace Core {
 		Application(const WindowProperties& windowProps);
 		~Application();
 
-		Application& GetInstance() const;
-		double GetTime() const;
-
+		static Application& GetInstance();
+		
 		void Run();
 		void Stop();
 
+		std::deque<std::unique_ptr<Layer>> LayerStack;
 
+		void RaiseEvent(Event& event);
+
+		template<std::derived_from<Layer> T>
+		void PushLayer()
+		{
+			LayerStack.push_front(std::make_unique<T>());
+		}
+
+		
 	private:
 
 		bool m_IsRunning = false;
 		WindowProperties m_WindowProperties;
+
 
 	};
 

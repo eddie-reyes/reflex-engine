@@ -5,7 +5,9 @@ namespace Core {
 
 	static Application* s_Instance = nullptr;
 
+
 	Application::Application(const WindowProperties& windowProps) {
+
 
 		m_WindowProperties = windowProps;
 
@@ -19,11 +21,12 @@ namespace Core {
 
 	}
 
-	Application& Application::GetInstance() const {
+	Application& Application::GetInstance() {
 
-		assert(s_Instance, "Invalid Application instance");
-		return *s_Instance;
+		assert(s_Instance);
+		return *s_Instance;	
 	}
+
 
 	void Application::Run() {
 
@@ -32,12 +35,29 @@ namespace Core {
 		//initialize raylib window with spec
 		InitWindow(m_WindowProperties.Width, m_WindowProperties.Height, m_WindowProperties.Title);
 
+		float lastTime = GetTime();
+
+
 		while (!WindowShouldClose() && m_IsRunning) {
 
-			BeginDrawing();
-			ClearBackground(RAYWHITE);
-			DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
-			EndDrawing();
+			PollInputEvents();
+
+			if (WindowShouldClose()) {
+
+				Stop();
+				break;
+			}
+
+			float currentTime = GetTime();
+			float timeStep = currentTime - lastTime;
+
+			for (const std::unique_ptr<Layer>& layer : LayerStack) {
+
+				layer->OnUpdate(timeStep);
+
+			}
+
+			lastTime = currentTime;
 
 		}
 	}
@@ -48,8 +68,4 @@ namespace Core {
 
 	}
 
-	double Application::GetTime() const {
-		return GetTime();
-
-	}
 }

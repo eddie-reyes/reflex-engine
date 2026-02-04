@@ -9,6 +9,6 @@ int main() {
 
 	Core::Application app(windowProps);
 	app.Run();
-
+	
 	return 0;
 }

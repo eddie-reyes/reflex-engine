@@ -3,11 +3,11 @@ src/Application.h
 src/Application.cpp
 src/Layer.h
 src/Layer.cpp
-)
+ "src/Event.h")
 
 add_library(Core STATIC)
 
-target_sources(Core PRIVATE ${SOURCES})
+target_sources(Core PRIVATE ${SOURCES} "src/Event.h")
 
 # Match VS filters to directory structure on disk
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES ${SOURCES})
