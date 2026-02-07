@@ -13,8 +13,9 @@ The engine simulates gravity, collision detection, and impulse-based collision r
   - Gravity and mass-based behavior
 
 - **Collision Detection**
-  - Shape intersection testing
-  - Contact generation
+  - Inherited from raylib
+  - Box/Sphere collision
+  - .svg custom colliders (WIP)
 
 - **Collision Resolution**
   - Impulse-based collision response
