@@ -33,7 +33,7 @@ The engine simulates gravity, collision detection, and impulse-based collision r
 ---
 
 ## Build
-Project files and build are generated using CMake. I reccommend creating a file called build and running 
+Project files and build are generated using CMake. I reccommend creating a folder called build and running 
 ```
 cmake ..
 ```
