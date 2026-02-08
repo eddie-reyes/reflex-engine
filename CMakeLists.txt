@@ -1,7 +1,6 @@
-﻿# CMakeList.txt : CMake project for reflex-engine, include source and define
-# project specific logic here.
-#
+﻿# CMakeList.txt : CMake project for reflex-engine
 cmake_minimum_required (VERSION 3.11)
+
 set(CMAKE_CXX_STANDARD 20)
 
 # Generate compile_commands.json

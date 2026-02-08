@@ -11,15 +11,14 @@ namespace Core {
 	public:
 		virtual ~Layer() = default;
 
-		virtual void OnEvent(Event& event) {}
+		virtual void OnEvent(Event& event) = 0;
 
-		virtual void OnUpdate(float ts) {}
-		virtual void OnRender() {}
+		virtual void OnUpdate(float ts) = 0;
 
-		template<std::derived_from<Layer> T>
+		template<std::derived_from<Layer> TLayer>
 		void TransitionTo()
 		{
-			QueueTransition(std::move(std::make_unique<T>()));
+			QueueTransition(std::move(std::make_unique<TLayer>()));
 		}
 	private:
 		void QueueTransition(std::unique_ptr<Layer> layer);

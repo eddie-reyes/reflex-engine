@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "MenuLayer.h"
 
 int main() {
 
@@ -8,6 +9,8 @@ int main() {
 	windowProps.Height = 720;
 
 	Core::Application app(windowProps);
+	app.PushLayer<MenuLayer>();
+
 	app.Run();
 	
 	return 0;

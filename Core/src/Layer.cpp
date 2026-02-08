@@ -11,7 +11,7 @@ void Core::Layer::QueueTransition(std::unique_ptr<Layer> toLayer)
 	{
 		if (layer.get() == this)
 		{
-			layer = std::move(toLayer);
+			layer = std::move(toLayer); //swap the layer in the stack with the new one
 			return;
 		}
 	}

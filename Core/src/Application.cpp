@@ -1,4 +1,7 @@
 #include "Application.h"
+#include "Event.h"
+
+#include <iostream>
 
 namespace Core {
 
@@ -24,7 +27,7 @@ namespace Core {
 	Application& Application::GetInstance() {
 
 		assert(s_Instance);
-		return *s_Instance;	
+		return *s_Instance;
 	}
 
 
@@ -34,11 +37,12 @@ namespace Core {
 
 		//initialize raylib window with spec
 		InitWindow(m_WindowProperties.Width, m_WindowProperties.Height, m_WindowProperties.Title);
+		SetTargetFPS(60);
 
 		float lastTime = GetTime();
 
 
-		while (!WindowShouldClose() && m_IsRunning) {
+		while (m_IsRunning) {
 
 			PollInputEvents();
 
@@ -62,10 +66,24 @@ namespace Core {
 		}
 	}
 
+	void Application::RaiseEvent(Event& event) {
+
+		for (auto& layer : LayerStack) {
+
+			layer->OnEvent(event);
+
+			if (event.isHandled) {
+				break;
+			}
+		}
+	}
+
+
 	void Application::Stop() {
 
 		m_IsRunning = false;
 
 	}
+
 
 }

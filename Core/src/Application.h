@@ -26,9 +26,8 @@ namespace Core {
 		void Run();
 		void Stop();
 
-		std::deque<std::unique_ptr<Layer>> LayerStack;
-
 		void RaiseEvent(Event& event);
+		void HandleInput();
 
 		template<std::derived_from<Layer> T>
 		void PushLayer()
@@ -36,6 +35,7 @@ namespace Core {
 			LayerStack.push_front(std::make_unique<T>());
 		}
 
+		std::deque<std::unique_ptr<Layer>> LayerStack;
 		
 	private:
 
