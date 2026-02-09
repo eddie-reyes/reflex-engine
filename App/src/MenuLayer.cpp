@@ -8,17 +8,10 @@ MenuLayer::MenuLayer()
 
 }
 
-MenuLayer::~MenuLayer()
-{
-
-
-
-}
-
 void MenuLayer::OnEvent(Core::Event& event)
 {
 	Core::EventDispatcher dispatcher(event);
-
+		
 
 }
 
@@ -33,4 +26,20 @@ void MenuLayer::OnUpdate(float ts)
 			button->OnClicked();
 		}
 	}
+}
+
+void MenuLayer::OnRender()
+{
+
+	BeginDrawing();
+
+	for (auto& button : m_Buttons) {
+
+		ClearBackground(RAYWHITE);
+
+		DrawTextureRec(button->GetTexture(), button->GetBoundingBox(), button->GetPosition(), WHITE);
+		
+	}
+
+	EndDrawing();
 }

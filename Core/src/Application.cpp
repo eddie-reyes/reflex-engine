@@ -1,7 +1,6 @@
 #include "Application.h"
 #include "Event.h"
 
-#include <iostream>
 
 namespace Core {
 
@@ -58,6 +57,12 @@ namespace Core {
 			for (const std::unique_ptr<Layer>& layer : LayerStack) {
 
 				layer->OnUpdate(timeStep);
+
+			}
+
+			for (const std::unique_ptr<Layer>& layer : LayerStack) {
+
+				layer->OnRender();
 
 			}
 

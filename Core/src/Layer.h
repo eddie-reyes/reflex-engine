@@ -15,6 +15,8 @@ namespace Core {
 
 		virtual void OnUpdate(float ts) = 0;
 
+		virtual void OnRender() = 0;
+
 		template<std::derived_from<Layer> TLayer>
 		void TransitionTo()
 		{
