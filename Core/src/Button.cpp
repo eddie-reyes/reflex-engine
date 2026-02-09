@@ -4,8 +4,8 @@
 Core::Button::Button(int x, int y, onClickedFn callbackFn)
 {
 	m_Position = { (float)x, (float)y };
-	m_BoundingBox = { 0, 0, (float)GetScreenWidth()/50, (float)GetScreenHeight() / 50 };
 	m_Texture = Core::LoadAssetTexture(AssetType::BUTTON_TEXTURE);
+	m_BoundingBox = { 0, 0, (float)m_Texture.width, (float)m_Texture.height};
 	OnClicked = callbackFn;
 }
 

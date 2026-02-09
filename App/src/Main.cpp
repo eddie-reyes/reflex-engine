@@ -10,8 +10,9 @@ int main() {
 
 	Core::Application app(windowProps);
 	app.PushLayer<MenuLayer>();
-
 	app.Run();
+
+
 	
 	return 0;
 }

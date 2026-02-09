@@ -15,6 +15,10 @@ namespace Core {
 
 		s_Instance = this;
 
+		//initialize raylib window with spec
+		InitWindow(m_WindowProperties.Width, m_WindowProperties.Height, m_WindowProperties.Title);
+		SetTargetFPS(60);
+
 	}
 
 	Application::~Application() {
@@ -34,12 +38,7 @@ namespace Core {
 
 		m_IsRunning = true;
 
-		//initialize raylib window with spec
-		InitWindow(m_WindowProperties.Width, m_WindowProperties.Height, m_WindowProperties.Title);
-		SetTargetFPS(60);
-
 		float lastTime = GetTime();
-
 
 		while (m_IsRunning) {
 
