@@ -83,21 +83,20 @@ namespace Core {
 	class MouseScrolledEvent : public Event
 	{
 	public:
-		MouseScrolledEvent(double xOffset, double yOffset)
-			: m_XOffset(xOffset), m_YOffset(yOffset) {
+		MouseScrolledEvent(float direction)
+			: m_Direction(direction) {
 		}
 
-		inline double GetXOffset() const { return m_XOffset; }
-		inline double GetYOffset() const { return m_YOffset; }
+		inline float GetDirection() const { return m_Direction; }
 
 		std::string ToString() const override
 		{
-			return std::format("MouseScrolledEvent: {}, {}", m_XOffset, m_YOffset);
+			return std::format("MouseScrolledEvent: {}", m_Direction);
 		}
 
 		EVENT_CLASS_TYPE(MouseScrolled)
 	private:
-		double m_XOffset, m_YOffset;
+		float m_Direction;
 	};
 
 	class MouseButtonEvent : public Event
@@ -140,6 +139,31 @@ namespace Core {
 		}
 
 		EVENT_CLASS_TYPE(MouseButtonReleased)
+	};
+
+
+	//
+	// Window Events
+	//
+
+	class WindowResizeEvent : public Event
+	{
+	public:
+		WindowResizeEvent(int width, int height)
+			: m_Width(width), m_Height(height) {
+		}
+
+		inline int GetWidth() const { return m_Width; }
+		inline int GetHeight() const { return m_Height; }
+
+		std::string ToString() const override
+		{
+			return std::format("WindowResizeEvent: {}, {}", m_Width, m_Height);
+		}
+
+		EVENT_CLASS_TYPE(WindowResize)
+	private:
+		int m_Width, m_Height;
 	};
 
 

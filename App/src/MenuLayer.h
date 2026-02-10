@@ -18,9 +18,16 @@ public:
 
 	virtual void OnRender() override;
 
+
 private:
 
+	void SetRelativePositionOfScene(int screenWidth, int screenHeight);
+
 	bool OnMouseButtonPressed(Core::MouseButtonPressedEvent& event);
+
+	bool OnMouseScrolled(Core::MouseScrolledEvent& event);
+
+	bool OnWindowResize(Core::WindowResizeEvent& event);
 
 	std::vector<std::unique_ptr<Core::Button>> m_Buttons;
 

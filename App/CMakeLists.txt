@@ -1,8 +1,5 @@
-set(SOURCES
-    src/Main.cpp
+set(SOURCES "src/Main.cpp" "src/MenuLayer.h" "src/MenuLayer.cpp")
     
- "src/MenuLayer.h" "src/MenuLayer.cpp")
-
 add_executable(App)
 
 target_sources(App PRIVATE ${SOURCES})

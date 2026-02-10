@@ -1,8 +1,11 @@
 #include "Application.h"
 #include "InputEvents.h"
 #include <ranges>
+#include <iostream>
 
-#define LMB MOUSE_BUTTON_LEFT
+#define MIN_SCREEN_WIDTH 1280
+#define MIN_SCREEN_HEIGHT 720
+#define TARGET_FPS 60
 
 namespace Core {
 
@@ -18,8 +21,10 @@ namespace Core {
 		s_Instance = this;
 
 		//initialize raylib window with spec
+		SetConfigFlags(FLAG_WINDOW_RESIZABLE);
 		InitWindow(m_WindowProperties.Width, m_WindowProperties.Height, m_WindowProperties.Title);
-		SetTargetFPS(60);
+		SetWindowMinSize(MIN_SCREEN_WIDTH, MIN_SCREEN_HEIGHT);
+		SetTargetFPS(TARGET_FPS);
 
 	}
 
@@ -90,9 +95,22 @@ namespace Core {
 
 	void Application::HandleInput() {
 	
-		if (IsMouseButtonPressed(LMB)) {
+		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
 
-			MouseButtonPressedEvent event(LMB);
+			MouseButtonPressedEvent event(MOUSE_BUTTON_LEFT);
+			RaiseEvent(event);
+		}
+
+		if (GetMouseWheelMove() != 0) {
+
+			MouseScrolledEvent event(GetMouseWheelMove());
+			RaiseEvent(event);
+
+		}
+
+		if (IsWindowResized()) {
+
+			WindowResizeEvent event(GetScreenWidth(), GetScreenHeight());
 			RaiseEvent(event);
 		}
 	

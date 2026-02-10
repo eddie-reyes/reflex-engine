@@ -24,8 +24,9 @@ namespace Core {
 
 		void SetPosition(float x, float y) { 
 			
-			m_BoundingBox.x = x - (float)m_Texture.width/2;
-			m_BoundingBox.y = y - (float)m_Texture.height / 2;
+			m_BoundingBox.x = x - (float)(m_Texture.width / 2);
+			m_BoundingBox.y = y - (float)(m_Texture.height / 2);
+
 		}
 
 		onClickedFn OnClicked;
