@@ -1,11 +1,11 @@
 #include "Button.h"
 #include "Utils.h"
 
-Core::Button::Button(int x, int y, onClickedFn callbackFn)
+Core::Button::Button(onClickedFn callbackFn)
 {
-	m_Position = { (float)x, (float)y };
 	m_Texture = Core::LoadAssetTexture(AssetType::BUTTON_TEXTURE);
-	m_BoundingBox = { 0, 0, (float)m_Texture.width, (float)m_Texture.height};
+	m_SourceRect = { 0, 0, (float)m_Texture.width, (float)m_Texture.height };
+	m_BoundingBox = m_SourceRect;
 	OnClicked = callbackFn;
 }
 

@@ -11,16 +11,22 @@ namespace Core {
 
 
 	public:
-		Button(int x, int y, onClickedFn callbackFn);
+		Button(onClickedFn callbackFn);
 		~Button();
 
 		bool isHovered(Vector2& mousePos) const;
 
 		Texture2D& GetTexture() { return m_Texture; }
 
-		Vector2& GetPosition() { return m_Position; }
+		Rectangle& GetSourceRect() { return m_SourceRect; }
 		
 		Rectangle& GetBoundingBox() { return m_BoundingBox; }
+
+		void SetPosition(float x, float y) { 
+			
+			m_BoundingBox.x = x - (float)m_Texture.width/2;
+			m_BoundingBox.y = y - (float)m_Texture.height / 2;
+		}
 
 		onClickedFn OnClicked;
 
@@ -28,7 +34,7 @@ namespace Core {
 
 		Texture2D m_Texture;
 
-		Vector2 m_Position;
+		Rectangle m_SourceRect;
 
 		Rectangle m_BoundingBox;
 

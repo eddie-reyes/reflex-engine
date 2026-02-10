@@ -1,6 +1,8 @@
 #include "Application.h"
-#include "Event.h"
+#include "InputEvents.h"
+#include <ranges>
 
+#define LMB MOUSE_BUTTON_LEFT
 
 namespace Core {
 
@@ -25,6 +27,8 @@ namespace Core {
 
 		CloseWindow();
 
+		s_Instance = nullptr;
+
 	}
 
 	Application& Application::GetInstance() {
@@ -42,7 +46,7 @@ namespace Core {
 
 		while (m_IsRunning) {
 
-			PollInputEvents();
+			HandleInput();
 
 			if (WindowShouldClose()) {
 
@@ -53,13 +57,14 @@ namespace Core {
 			float currentTime = GetTime();
 			float timeStep = currentTime - lastTime;
 
-			for (const std::unique_ptr<Layer>& layer : LayerStack) {
+			for (const auto& layer : LayerStack) {
 
 				layer->OnUpdate(timeStep);
 
 			}
 
-			for (const std::unique_ptr<Layer>& layer : LayerStack) {
+			//render topmost layer last
+			for (const auto& layer : std::views::reverse(LayerStack)) {
 
 				layer->OnRender();
 
@@ -72,6 +77,7 @@ namespace Core {
 
 	void Application::RaiseEvent(Event& event) {
 
+		//propigate top -> down
 		for (auto& layer : LayerStack) {
 
 			layer->OnEvent(event);
@@ -82,6 +88,15 @@ namespace Core {
 		}
 	}
 
+	void Application::HandleInput() {
+	
+		if (IsMouseButtonPressed(LMB)) {
+
+			MouseButtonPressedEvent event(LMB);
+			RaiseEvent(event);
+		}
+	
+	}
 
 	void Application::Stop() {
 
