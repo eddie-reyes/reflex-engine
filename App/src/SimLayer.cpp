@@ -6,7 +6,7 @@ static Core::Engine::Vec2 gravity = { 0, 9.8f };
 
 SimLayer::SimLayer()
 {
-	SetRelativePositionOfScene(GetScreenWidth(), GetScreenHeight());
+	m_ScreenSize = { (float)GetScreenWidth(), (float)GetScreenHeight() };
     m_bodies.push_back(std::make_unique<Core::Engine::Circle>(10, 0.5, 0.1, 50));
     m_bodies.push_back(std::make_unique<Core::Engine::Circle>(10, 0.5, 0.1, 50));
 	Core::Engine::Vec2 boundingBox = { (float)GetScreenWidth(), 100};
@@ -33,7 +33,6 @@ void SimLayer::OnUpdate(float dt)
 
         b->Velocity += gravity * dt;
 
-  
     }
 
     // 2) build contacts
@@ -94,9 +93,12 @@ void SimLayer::OnRender()
 
 void SimLayer::SetRelativePositionOfScene(int screenWidth, int screenHeight)
 {
-	for (auto& Body : m_bodies) {
-		
+	for (auto& b : m_bodies) {
+        b->Position.x = b->Position.x * (screenWidth * m_ScreenSize.x);
+        b->Position.y = b->Position.y * (screenHeight * m_ScreenSize.y);
 	}
+
+    m_ScreenSize = { (float)screenWidth, (float)screenHeight };
 }
 
 bool SimLayer::OnMouseButtonPressed(Core::MouseButtonPressedEvent& event)

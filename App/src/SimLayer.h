@@ -31,5 +31,7 @@ private:
 
 	std::vector<std::unique_ptr<Core::Engine::Body>> m_bodies;
 
+	Vector2 m_ScreenSize;
+
 
 };

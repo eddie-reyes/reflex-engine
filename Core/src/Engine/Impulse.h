@@ -5,7 +5,7 @@
 namespace Core::Engine 
 {
 
-    inline void ApplyImpulse(Body& A, Body& B, const Manifold& m) {
+    static inline void ApplyImpulse(Body& A, Body& B, const Manifold& m) {
         Vec2 rv = B.Velocity - A.Velocity;
         float VelocityAlongNormal = Dot(rv, m.Normal);
 
@@ -26,8 +26,8 @@ namespace Core::Engine
         //Friction
         rv = B.Velocity - A.Velocity;
         Vec2 tangent = rv - m.Normal * Dot(rv, m.Normal);
-        float tLen2 = Len(tangent);
-        if (tLen2 > MIN_VEC_LEN) tangent = Normalize(tangent);
+        float tLen = Len(tangent);
+        if (tLen > MIN_VEC_LEN) tangent = Normalize(tangent);
         else return;
 
         float jt = -Dot(rv, tangent);

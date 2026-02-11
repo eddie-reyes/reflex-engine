@@ -1,20 +1,19 @@
 #pragma once
 
 #include "Body.h"
-#include <iostream>
 
 namespace Core::Engine {
 
-    inline Vec2 AABBMin(Body& b) { return b.Position - b.Shape.Half; }
-    inline Vec2 AABBMax(Body& b) { return b.Position + b.Shape.Half; }
+    static inline Vec2 AABBMin(Body& b) { return b.Position - b.Shape.Half; }
+    static inline Vec2 AABBMax(Body& b) { return b.Position + b.Shape.Half; }
 
-    inline Vec2 ClosestPointOnAABB(Vec2& p, Body& box) {
+    static inline Vec2 ClosestPointOnAABB(Vec2& p, Body& box) {
         Vec2 mn = AABBMin(box);
         Vec2 mx = AABBMax(box);
         return { std::clamp(p.x, mn.x, mx.x), std::clamp(p.y, mn.y, mx.y)};
     }
 
-    inline bool CollideCircleCircle(Body& A, Body& B, Manifold& m) {
+    static inline bool CollideCircleCircle(Body& A, Body& B, Manifold& m) {
         Vec2 d = B.Position - A.Position;
         float r = A.Shape.Radius + B.Shape.Radius;
         float dist = Len(d);
@@ -28,7 +27,7 @@ namespace Core::Engine {
         return true;
     }
 
-    inline bool CollideAABBAABB(Body& A, Body& B, Manifold& m) {
+    static inline bool CollideAABBAABB(Body& A, Body& B, Manifold& m) {
         Vec2 d = B.Position - A.Position;
         Vec2 a = A.Shape.Half;
         Vec2 b = B.Shape.Half;
@@ -54,7 +53,7 @@ namespace Core::Engine {
         return true;
     }
 
-    inline bool CollideCircleAABB(Body& circle, Body& box, Manifold& m) {
+    static inline bool CollideCircleAABB(Body& circle, Body& box, Manifold& m) {
         Vec2 closest = ClosestPointOnAABB(circle.Position, box);
         Vec2 d = closest - circle.Position;
 
@@ -89,7 +88,7 @@ namespace Core::Engine {
         return true;
     }
 
-    inline bool BuildManifold(Body& A, Body& B, Manifold& m) {
+    static inline bool BuildManifold(Body& A, Body& B, Manifold& m) {
         if (A.Shape.Type == ShapeType::Circle && B.Shape.Type == ShapeType::Circle)
             return CollideCircleCircle(A, B, m);
 
@@ -110,7 +109,7 @@ namespace Core::Engine {
         return false;
     }
 
-    inline void PositionalCorrection(Body& A, Body& B, const Manifold& m) {
+    static inline void PositionalCorrection(Body& A, Body& B, const Manifold& m) {
         const float percent = 0.2f; // 20%
         const float slop = 0.01f;
 
