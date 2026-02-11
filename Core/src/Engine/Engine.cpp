@@ -1,6 +1,7 @@
 #include "Engine.h"
 #include "Collision.h"
 #include "Impulse.h"
+#include "Event.h"
 
 
 namespace Core::Engine {
@@ -10,7 +11,6 @@ namespace Core::Engine {
 	Engine::Engine()
 	{
 		
-
 		m_Scene.push_back(std::make_unique<Circle>(10, 0.5, 0.1, 50));
 		m_Scene.push_back(std::make_unique<Circle>(100, 0.5, 0.1, 50));
 		//Vec2 boundingBox = { (float)GetScreenWidth(), 100 };
@@ -22,6 +22,7 @@ namespace Core::Engine {
 
 	void Engine::Tick(float dt)
 	{
+        if (m_isPaused) return;
 
         // 1) apply forces + integrate velocities
         for (auto& b : m_Scene) {

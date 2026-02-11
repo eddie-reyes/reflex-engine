@@ -24,7 +24,7 @@ namespace Core {
 		Application(const WindowProperties& windowProps);
 		~Application();
 
-		static Application& GetInstance();
+		static Application& Get();
 		
 		void Run();
 		void Stop();
@@ -40,10 +40,9 @@ namespace Core {
 
 		std::deque<std::unique_ptr<Layer>> LayerStack;
 
+		//init engine
 		ReflexEngine Engine;
 
-
-		
 	private:
 
 		bool m_IsRunning = false;

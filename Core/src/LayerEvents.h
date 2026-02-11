@@ -11,13 +11,12 @@ namespace Core
 	public:
 		OnLayerTransitionEvent(LayerState LayerState) : Event(), m_ToLayerState(LayerState) {}
 
-
 		std::string ToString() const override
 		{
-			//return std::format("OnTransitionEvent: Transitioning to layer {}", m_ToLayer.);
+			return std::format("OnTransitionEvent: {}", GetName() );
 		}
 
-		//EVENT_CLASS_TYPE(LayerTransition);
+		EVENT_CLASS_TYPE(LayerTransition);
 	private:
 
 		LayerState m_ToLayerState;

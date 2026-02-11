@@ -35,7 +35,7 @@ namespace Core {
 
 	}
 
-	Application& Application::GetInstance() {
+	Application& Application::Get() {
 
 		assert(s_Instance);
 		return *s_Instance;

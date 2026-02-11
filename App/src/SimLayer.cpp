@@ -4,7 +4,7 @@
 
 SimLayer::SimLayer()
 {
-	m_LayerState = Core::LayerState::SimActive;
+	m_LayerState = Core::LayerState::SimPaused;
 
 }
 
@@ -18,7 +18,7 @@ void SimLayer::OnEvent(Core::Event& event)
 }
 void SimLayer::OnRender()
 {
-	const auto& bodies = Core::Application::GetInstance().Engine.GetScene();
+	const auto& bodies = Core::Application::Get().Engine.GetScene();
 
     for (auto& b : bodies) {
         if (b->Shape.Type == Core::Engine::ShapeType::Circle) {

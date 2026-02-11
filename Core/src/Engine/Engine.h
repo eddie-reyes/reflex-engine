@@ -16,15 +16,17 @@ namespace Core::Engine {
 
 		void Tick(float tickRate);
 
-		std::vector<std::unique_ptr<Body>>& GetScene() { return m_Scene; }
+		auto& GetScene() { return m_Scene; };
+
+		void Pause() { m_isPaused = true; };
+
+		void UnPause() { m_isPaused = false; };
 
 	private:
 
 		std::vector<std::unique_ptr<Body>> m_Scene; //the scene is a collection of bodies
 
-		float m_TickRate;
-
-
+		bool m_isPaused = true;
 	};
 
 }

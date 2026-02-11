@@ -6,8 +6,8 @@
 MenuLayer::MenuLayer()
 {
 
-	m_Buttons.push_back(std::make_unique<Core::Button>([this]() { TransitionTo<MenuLayer>(); }));
-	m_Buttons.push_back(std::make_unique<Core::Button>([this]() { TransitionTo<MenuLayer>(); }));
+	//m_Buttons.push_back(std::make_unique<Core::Button>([this]() { }));
+	//m_Buttons.push_back(std::make_unique<Core::Button>([this]() { TransitionTo<MenuLayer>(); }));
 
 	SetRelativePositionOfScene(GetScreenWidth(), GetScreenHeight());
 
