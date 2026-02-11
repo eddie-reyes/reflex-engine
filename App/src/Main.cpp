@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "MenuLayer.h"
+#include "SimLayer.h"
 
 int main() {
 
@@ -9,6 +10,7 @@ int main() {
 	windowProps.Height = 1080;
 
 	Core::Application app(windowProps);
+	app.PushLayer<SimLayer>();
 	app.PushLayer<MenuLayer>();
 	app.Run();
 

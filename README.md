@@ -2,7 +2,7 @@
 
 **reflex-engine** is a custom-built 2D physics engine written from scratch, using **raylib** as its rendering framework. It focuses on simulating realistic rigid body dynamics with an emphasis on high performance.
 
-The engine simulates gravity, collision detection, and impulse-based collision resolution with support for **friction** and **restitution**, making it suitable for both learning and demonstration purposes. It also ships with a collection of interactive demos and a sandbox mode for hands-on exploration.
+The engine simulates gravity, collision detection, and impulse-based collision resolution with support for **Friction** and **restitution**, making it suitable for both learning and demonstration purposes. It also ships with a collection of interactive demos and a sandbox mode for hands-on exploration.
 
 ---
 

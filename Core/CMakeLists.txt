@@ -1,4 +1,4 @@
-set(SOURCES "src/Application.h" "src/Application.cpp" "src/Layer.h" "src/Layer.cpp" "src/Event.h" "src/InputEvents.h" "src/Button.h" "src/Button.cpp" "src/Utils.h")
+set(SOURCES "src/Application.h" "src/Application.cpp" "src/Layer.h" "src/Layer.cpp" "src/Event.h" "src/InputEvents.h" "src/Button.h" "src/Button.cpp" "src/Utils.h" "src/Engine/Math.h" "src/Engine/Body.h"  "src/Engine/Collision.h" "src/Engine/Impulse.h")
 
 add_library(Core STATIC)
 

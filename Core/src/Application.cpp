@@ -1,17 +1,15 @@
 #include "Application.h"
 #include "InputEvents.h"
 #include <ranges>
-#include <iostream>
 
 #define MIN_SCREEN_WIDTH 1280
 #define MIN_SCREEN_HEIGHT 720
+#define SIMULATION_SPEED 5.0f
 #define TARGET_FPS 60
 
 namespace Core {
 
-
 	static Application* s_Instance = nullptr;
-
 
 	Application::Application(const WindowProperties& windowProps) {
 
@@ -47,8 +45,6 @@ namespace Core {
 
 		m_IsRunning = true;
 
-		float lastTime = GetTime();
-
 		while (m_IsRunning) {
 
 			HandleInput();
@@ -59,23 +55,23 @@ namespace Core {
 				break;
 			}
 
-			float currentTime = GetTime();
-			float timeStep = currentTime - lastTime;
-
 			for (const auto& layer : LayerStack) {
 
-				layer->OnUpdate(timeStep);
+				layer->OnUpdate(GetFrameTime() * SIMULATION_SPEED);
 
 			}
 
-			//render topmost layer last
+			BeginDrawing();
+			ClearBackground(RAYWHITE);
+
+			//render from bottom -> top (reverse order of layers)
 			for (const auto& layer : std::views::reverse(LayerStack)) {
 
 				layer->OnRender();
 
 			}
 
-			lastTime = currentTime;
+			EndDrawing();
 
 		}
 	}
@@ -101,11 +97,16 @@ namespace Core {
 			RaiseEvent(event);
 		}
 
+		if (IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) {
+
+			MouseButtonPressedEvent event(MOUSE_BUTTON_RIGHT);
+			RaiseEvent(event);
+		}
+
 		if (GetMouseWheelMove() != 0) {
 
 			MouseScrolledEvent event(GetMouseWheelMove());
 			RaiseEvent(event);
-
 		}
 
 		if (IsWindowResized()) {
@@ -113,6 +114,7 @@ namespace Core {
 			WindowResizeEvent event(GetScreenWidth(), GetScreenHeight());
 			RaiseEvent(event);
 		}
+
 	
 	}
 

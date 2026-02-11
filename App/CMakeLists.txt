@@ -1,4 +1,4 @@
-set(SOURCES "src/Main.cpp" "src/MenuLayer.h" "src/MenuLayer.cpp")
+set(SOURCES "src/Main.cpp" "src/MenuLayer.h" "src/MenuLayer.cpp" "src/SimLayer.h" "src/SimLayer.cpp")
     
 add_executable(App)
 

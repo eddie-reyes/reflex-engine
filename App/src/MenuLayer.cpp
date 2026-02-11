@@ -20,28 +20,24 @@ void MenuLayer::OnEvent(Core::Event& event)
 	dispatcher.Dispatch<Core::MouseButtonPressedEvent>([this](Core::MouseButtonPressedEvent& e) { return OnMouseButtonPressed(e); });
 	dispatcher.Dispatch<Core::MouseScrolledEvent>([this](Core::MouseScrolledEvent& e) { return OnMouseScrolled(e); });
 	dispatcher.Dispatch<Core::WindowResizeEvent>([this](Core::WindowResizeEvent& e) { return OnWindowResize(e); });
-	
+
 
 }
 
 void MenuLayer::OnUpdate(float ts)
 {
-	
+
 }
 
 void MenuLayer::OnRender()
 {
 
-	BeginDrawing();
-
 	for (const auto& button : m_Buttons) {
 
-		ClearBackground(RAYWHITE);
-		DrawTextureRec(button->GetTexture(), button->GetSourceRect(), {button->GetBoundingBox().x, button->GetBoundingBox().y}, WHITE);
-		
+		DrawTextureRec(button->GetTexture(), button->GetSourceRect(), { button->GetBoundingBox().x, button->GetBoundingBox().y }, WHITE);
+
 	}
 
-	EndDrawing();
 }
 
 void MenuLayer::SetRelativePositionOfScene(int screenWidth, int screenHeight)

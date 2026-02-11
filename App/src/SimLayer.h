@@ -3,14 +3,16 @@
 #include "Layer.h"
 #include "Button.h"
 #include "InputEvents.h"
-
+#include "Engine/Body.h"
 
 #include <vector>
 
-class MenuLayer : public Core::Layer
+#define SOLVER_ITER 10
+
+class SimLayer : public Core::Layer
 {
 public:
-	MenuLayer();
+	SimLayer();
 
 	virtual void OnEvent(Core::Event& event) override;
 
@@ -25,12 +27,9 @@ private:
 
 	bool OnMouseButtonPressed(Core::MouseButtonPressedEvent& event);
 
-	bool OnMouseScrolled(Core::MouseScrolledEvent& event);
-
 	bool OnWindowResize(Core::WindowResizeEvent& event);
 
-	std::vector<std::unique_ptr<Core::Button>> m_Buttons;
+	std::vector<std::unique_ptr<Core::Engine::Body>> m_bodies;
 
-	int m_SceneHeight{0};
 
 };

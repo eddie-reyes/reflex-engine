@@ -17,6 +17,7 @@ Core::Button::~Button()
 bool Core::Button::isHovered(Vector2& mousePos) const
 {
 	return CheckCollisionPointRec(mousePos, m_BoundingBox);
+
 }
 
  
