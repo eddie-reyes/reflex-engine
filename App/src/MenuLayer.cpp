@@ -24,11 +24,6 @@ void MenuLayer::OnEvent(Core::Event& event)
 
 }
 
-void MenuLayer::OnUpdate(float ts)
-{
-
-}
-
 void MenuLayer::OnRender()
 {
 

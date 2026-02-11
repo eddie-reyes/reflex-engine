@@ -14,8 +14,6 @@ public:
 
 	virtual void OnEvent(Core::Event& event) override;
 
-	virtual void OnUpdate(float ts) override;
-
 	virtual void OnRender() override;
 
 

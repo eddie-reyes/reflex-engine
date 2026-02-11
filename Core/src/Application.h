@@ -2,11 +2,14 @@
 
 #include "raylib.h"
 #include "Layer.h"
+#include "Engine/Engine.h"
 #include <cassert>
 #include <deque>
 #include <memory>
 
 namespace Core {
+
+	using ReflexEngine = Engine::Engine;
 
 	struct WindowProperties {
 		const char* Title;
@@ -36,6 +39,10 @@ namespace Core {
 		}
 
 		std::deque<std::unique_ptr<Layer>> LayerStack;
+
+		ReflexEngine Engine;
+
+
 		
 	private:
 

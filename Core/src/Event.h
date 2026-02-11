@@ -11,6 +11,7 @@ namespace Core {
 		WindowClose, WindowResize,
 		KeyPressed, KeyReleased,
 		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled,
+		LayerTransition
 	};
 
 

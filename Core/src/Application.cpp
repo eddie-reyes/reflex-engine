@@ -24,6 +24,7 @@ namespace Core {
 		SetWindowMinSize(MIN_SCREEN_WIDTH, MIN_SCREEN_HEIGHT);
 		SetTargetFPS(TARGET_FPS);
 
+
 	}
 
 	Application::~Application() {
@@ -55,11 +56,8 @@ namespace Core {
 				break;
 			}
 
-			for (const auto& layer : LayerStack) {
-
-				layer->OnUpdate(GetFrameTime() * SIMULATION_SPEED);
-
-			}
+			//simulate scene
+			Engine.Tick(GetFrameTime());
 
 			BeginDrawing();
 			ClearBackground(RAYWHITE);
