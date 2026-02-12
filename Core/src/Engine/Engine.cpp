@@ -11,9 +11,11 @@ namespace Core::Engine {
         BuildScenesFromFile();
 	}
 
-    void Engine::BuildScene(SceneType sceneSerialized) {
+    void Engine::BuildScene(SceneType sceneTypeSerialized) {
 
-        nlohmann::json scene = ScenesData[sceneSerialized];
+        nlohmann::json scene = ScenesData[sceneTypeSerialized];
+        
+        m_Gravity = { scene["gravity"]["x"], scene["gravity"]["y"] };
 
         for (auto& body : scene["bodies"]) {
 
@@ -21,15 +23,15 @@ namespace Core::Engine {
             float restitution = body["restitution"];
             float friction = body["friction"];
 			bool isStatic = body["isStatic"];
-			Vec2 position = { body["initialPosition"]["x"], body["initialPosition"]["y"] };
+			Vec2 initialPosition = { body["initialPosition"]["x"], body["initialPosition"]["y"] };
 
             if (body["type"] == "circle") {
 				float radius = body["radius"];
-                m_Scene.push_back(std::make_unique<Circle>(mass, restitution, friction, isStatic, position, radius));
+                m_Scene.push_back(std::make_unique<Circle>(mass, restitution, friction, isStatic, initialPosition, radius));
             }
             if (body["type"] == "box") {
                 Vec2 dimensions = { body["dimensions"]["width"], body["dimensions"]["height"] };
-                m_Scene.push_back(std::make_unique<Box>(mass, restitution, friction, isStatic, position, dimensions));
+                m_Scene.push_back(std::make_unique<Box>(mass, restitution, friction, isStatic, initialPosition, dimensions));
             }
 
         }
@@ -86,6 +88,10 @@ namespace Core::Engine {
         }
 
 	}
+
+    void Engine::TogglePause() {
+		m_isPaused = !m_isPaused;
+    }
 
     void Engine::Reset()
     {

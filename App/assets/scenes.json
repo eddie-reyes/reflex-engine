@@ -2,9 +2,7 @@
   "scenes": [
     {
       "name": "BinomialScene",
-      "settings": {
-        "gravity": [ 0.0, -9.81 ]
-      },
+      "gravity": { "x" : 0.0, "y" : 9.81 },
       "bodies": [
         {
           "type": "circle",

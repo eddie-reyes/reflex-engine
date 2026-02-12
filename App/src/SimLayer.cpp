@@ -2,11 +2,11 @@
 #include "MenuLayer.h"
 #include "Application.h"
 
+
 SimLayer::SimLayer()
 {
 	
-	m_Buttons.push_back(std::make_unique<Core::Button>([]() { Core::Application::Get().Engine.UnPause(); }));
-	m_Buttons.push_back(std::make_unique<Core::Button>([]() { Core::Application::Get().Engine.Pause(); }));
+	m_Buttons.push_back(std::make_unique<Core::Button>([]() { Core::Application::Get().Engine.TogglePause(); }));
 
 	m_Buttons.push_back(std::make_unique<Core::Button>([this]() { 
 		Core::Application::Get().Engine.Reset();

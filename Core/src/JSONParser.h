@@ -1,5 +1,6 @@
 #include <fstream>
 #include <nlohmann/json.hpp>
+#include <iostream>
 
 enum SceneType {
 
@@ -18,6 +19,12 @@ namespace Core {
 
 	inline static void BuildScenesFromFile() {
 		std::ifstream f("assets/scenes.json");
+
+		if (!f.is_open()) {
+			std::cerr << "[ERROR] Failed to open scenes metadata" << std::endl;
+		}
+
+
 		ScenesData = nlohmann::json::parse(f)["scenes"];
 	}
 

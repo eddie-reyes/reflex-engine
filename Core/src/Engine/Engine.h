@@ -19,11 +19,9 @@ namespace Core::Engine {
 
 		auto& GetSceneBodies() { return m_Scene; };
 
-		void BuildScene(SceneType sceneSerialized);
+		void BuildScene(SceneType sceneTypeSerialized);
 
-		void Pause() { m_isPaused = true; };
-
-		void UnPause() { m_isPaused = false; };
+		void TogglePause();
 
 		void Reset();
 

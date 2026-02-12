@@ -28,7 +28,7 @@ namespace Core {
 
 		if (!std::filesystem::exists(path)) {
 
-			std::cerr << "Failed to load texture: " << path << "\n";
+			std::cerr << "[ERROR] Failed to load texture: " << path << std::endl;
 			return {};
 
 		}
