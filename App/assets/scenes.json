@@ -1,0 +1,39 @@
+{
+  "scenes": [
+    {
+      "name": "BinomialScene",
+      "settings": {
+        "gravity": [ 0.0, -9.81 ]
+      },
+      "bodies": [
+        {
+          "type": "circle",
+          "mass": 1.0,
+          "initialPosition": {
+            "x": 100.0,
+            "y": 100.0
+          },
+          "radius": 50.0,
+          "restitution": 0.1,
+          "friction": 0.8,
+          "isStatic": false
+        },
+        {
+          "type": "box",
+          "mass": 1.0,
+          "initialPosition": {
+            "x" : 200.0,
+            "y" : 100.0
+          },
+          "dimensions": {
+            "width": 50.0,
+            "height": 50.0
+          },
+          "restitution": 0.1,
+          "friction": 0.8,
+          "isStatic": false
+        }
+      ]
+    }
+  ]
+}

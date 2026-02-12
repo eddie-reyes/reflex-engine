@@ -22,12 +22,12 @@ namespace Core {
 
 		Rectangle& GetSourceRect() { return m_SourceRect; }
 		
-		Rectangle& GetBoundingBox() { return m_BoundingBox; }
+		Vector2& GetPosition() { return m_Position; }
 
 		void SetPosition(float x, float y) { 
 			
-			m_BoundingBox.x = x - (float)(m_Texture.width / 2);
-			m_BoundingBox.y = y - (float)(m_Texture.height / 2);
+			m_Position.x = x - (float)(m_Texture.width / 2);
+			m_Position.y = y - (float)(m_Texture.height / 2);
 
 		}
 
@@ -39,7 +39,7 @@ namespace Core {
 
 		Rectangle m_SourceRect;
 
-		Rectangle m_BoundingBox;
+		Vector2 m_Position;
 
 
 	};

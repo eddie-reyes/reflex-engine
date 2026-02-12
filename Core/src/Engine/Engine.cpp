@@ -1,24 +1,40 @@
 #include "Engine.h"
 #include "Collision.h"
 #include "Impulse.h"
-#include "Event.h"
-
+#include <iostream>
 
 namespace Core::Engine {
 
-    static Vec2 gravity = { 0, 9.8f };
-
 	Engine::Engine()
 	{
-		
-		m_Scene.push_back(std::make_unique<Circle>(10, 0.5, 0.1, 50));
-		m_Scene.push_back(std::make_unique<Circle>(100, 0.5, 0.1, 50));
-		//Vec2 boundingBox = { (float)GetScreenWidth(), 100 };
-		//m_Scene.push_back(std::make_unique<Core::Engine::Box>(STATIC_BODY, 1, 0.1, boundingBox));
-		//m_Scene[0]->Position = { (float)GetScreenWidth() / 2 - 25.0f , (float)GetScreenHeight() / 3 };
-		//m_Scene[1]->Position = { (float)GetScreenWidth() / 2 , (float)GetScreenHeight() / 2 };
-		//m_Scene[2]->Position = { (float)GetScreenWidth() / 2 , (float)GetScreenHeight() - 50 };
+        Reset();
+        BuildScenesFromFile();
 	}
+
+    void Engine::BuildScene(SceneType sceneSerialized) {
+
+        nlohmann::json scene = ScenesData[sceneSerialized];
+
+        for (auto& body : scene["bodies"]) {
+
+            float mass = body["mass"];
+            float restitution = body["restitution"];
+            float friction = body["friction"];
+			bool isStatic = body["isStatic"];
+			Vec2 position = { body["initialPosition"]["x"], body["initialPosition"]["y"] };
+
+            if (body["type"] == "circle") {
+				float radius = body["radius"];
+                m_Scene.push_back(std::make_unique<Circle>(mass, restitution, friction, isStatic, position, radius));
+            }
+            if (body["type"] == "box") {
+                Vec2 dimensions = { body["dimensions"]["width"], body["dimensions"]["height"] };
+                m_Scene.push_back(std::make_unique<Box>(mass, restitution, friction, isStatic, position, dimensions));
+            }
+
+        }
+       
+    }
 
 	void Engine::Tick(float dt)
 	{
@@ -28,22 +44,22 @@ namespace Core::Engine {
         for (auto& b : m_Scene) {
             if (b->IsStatic()) continue; //ignore static bodies
 
-			b->Velocity += gravity * dt * SIM_SPEED;
+			b->Velocity += m_Gravity * dt * SIM_SPEED;
 
         }
 
         // 2) build contacts
-        std::vector<Core::Engine::Manifold> contacts;
+        std::vector<Manifold> contacts;
         contacts.reserve(m_Scene.size());
 
         const int n = (int)m_Scene.size();
         for (int i = 0; i < n; ++i) {
             for (int j = i + 1; j < n; ++j) { //narrowphase
-                Core::Engine::Body& A = *m_Scene[i];
-                Core::Engine::Body& B = *m_Scene[j];
+                Body& A = *m_Scene[i];
+                Body& B = *m_Scene[j];
                 if (A.IsStatic() && B.IsStatic()) continue;
 
-                Core::Engine::Manifold m;
+                Manifold m;
                 if (BuildManifold(A, B, m)) {
                     m.ia = i; m.ib = j;
                     contacts.push_back(m);
@@ -69,8 +85,15 @@ namespace Core::Engine {
             PositionalCorrection(*m_Scene[c.ia], *m_Scene[c.ib], c);
         }
 
-
 	}
+
+    void Engine::Reset()
+    {
+
+		m_Scene.clear();
+		m_isPaused = true;
+
+    }
 
 }
 

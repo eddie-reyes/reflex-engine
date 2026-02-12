@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <string>
 #include <filesystem>
@@ -9,10 +10,9 @@ enum class AssetType {
 
 };
 
-
 namespace Core {
 
-	inline Texture2D LoadAssetTexture(AssetType type) {
+	static inline Texture2D LoadAssetTexture(AssetType type) {
 
 		std::filesystem::path path;
 
