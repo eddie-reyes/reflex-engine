@@ -13,7 +13,8 @@ SimLayer::SimLayer()
 		TransitionTo<MenuLayer>();
 	}));
 
-	SetRelativePositionOfScene(GetScreenWidth(), GetScreenHeight());
+	Core::Application::Get().Engine.MapSceneCoordsToWindow(GetScreenWidth(), GetScreenHeight());
+	SetRelativePositionOfUI(GetScreenWidth(), GetScreenHeight());
 }
 
 void SimLayer::OnEvent(Core::Event& event)
@@ -49,7 +50,7 @@ void SimLayer::OnRender()
 
 }
 
-void SimLayer::SetRelativePositionOfScene(int screenWidth, int screenHeight)
+void SimLayer::SetRelativePositionOfUI(int screenWidth, int screenHeight)
 {
 
 	for (int i = 0; i < m_Buttons.size(); i++) {
@@ -75,7 +76,7 @@ bool SimLayer::OnMouseButtonPressed(Core::MouseButtonPressedEvent& event)
 
 bool SimLayer::OnWindowResize(Core::WindowResizeEvent& event)
 {
-	SetRelativePositionOfScene(event.GetWidth(), event.GetHeight());
+	SetRelativePositionOfUI(event.GetWidth(), event.GetHeight());
 
 	return true;
 }

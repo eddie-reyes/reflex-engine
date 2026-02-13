@@ -19,7 +19,7 @@ public:
 
 private:
 
-	void SetRelativePositionOfScene(int screenWidth, int screenHeight);
+	void SetRelativePositionOfUI(int screenWidth, int screenHeight);
 
 	bool OnMouseButtonPressed(Core::MouseButtonPressedEvent& event);
 

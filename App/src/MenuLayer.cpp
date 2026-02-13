@@ -9,7 +9,7 @@ MenuLayer::MenuLayer()
 
 	m_Buttons.push_back(std::make_unique<Core::Button>([this]() { Core::Application::Get().Engine.BuildScene(SceneType::BINOMIAL_SCENE);  }));
 
-	SetRelativePositionOfScene(GetScreenWidth(), GetScreenHeight());
+	SetRelativePositionOfUI(GetScreenWidth(), GetScreenHeight());
 
 }
 
@@ -21,7 +21,6 @@ void MenuLayer::OnEvent(Core::Event& event)
 	dispatcher.Dispatch<Core::MouseScrolledEvent>([this](Core::MouseScrolledEvent& e) { return OnMouseScrolled(e); });
 	dispatcher.Dispatch<Core::WindowResizeEvent>([this](Core::WindowResizeEvent& e) { return OnWindowResize(e); });
 	 
-
 }
 
 void MenuLayer::OnRender()
@@ -35,7 +34,7 @@ void MenuLayer::OnRender()
 
 }
 
-void MenuLayer::SetRelativePositionOfScene(int screenWidth, int screenHeight)
+void MenuLayer::SetRelativePositionOfUI(int screenWidth, int screenHeight)
 {
 
 	for (int i = 0; i < m_Buttons.size(); i++) {
@@ -73,7 +72,7 @@ bool MenuLayer::OnMouseScrolled(Core::MouseScrolledEvent& event)
 bool MenuLayer::OnWindowResize(Core::WindowResizeEvent& event)
 {
 
-	SetRelativePositionOfScene(event.GetWidth(), event.GetHeight());
+	SetRelativePositionOfUI(event.GetWidth(), event.GetHeight());
 
 	return true;
 }

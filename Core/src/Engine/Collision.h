@@ -4,16 +4,16 @@
 
 namespace Core::Engine {
 
-    static inline Vec2 AABBMin(Body& b) { return b.Position - b.Shape.Half; }
-    static inline Vec2 AABBMax(Body& b) { return b.Position + b.Shape.Half; }
+    inline Vec2 AABBMin(const Body& b) { return b.Position - b.Shape.Half; }
+    inline Vec2 AABBMax(const Body& b) { return b.Position + b.Shape.Half; }
 
-    static inline Vec2 ClosestPointOnAABB(Vec2& p, Body& box) {
+    inline Vec2 ClosestPointOnAABB(const Vec2& p, const Body& box) {
         Vec2 mn = AABBMin(box);
         Vec2 mx = AABBMax(box);
         return { std::clamp(p.x, mn.x, mx.x), std::clamp(p.y, mn.y, mx.y)};
     }
 
-    static inline bool CollideCircleCircle(Body& A, Body& B, Manifold& m) {
+    inline bool CollideCircleCircle(Body& A, Body& B, Manifold& m) {
         Vec2 d = B.Position - A.Position;
         float r = A.Shape.Radius + B.Shape.Radius;
         float dist = Len(d);
@@ -27,7 +27,7 @@ namespace Core::Engine {
         return true;
     }
 
-    static inline bool CollideAABBAABB(Body& A, Body& B, Manifold& m) {
+    inline bool CollideAABBAABB(Body& A, Body& B, Manifold& m) {
         Vec2 d = B.Position - A.Position;
         Vec2 a = A.Shape.Half;
         Vec2 b = B.Shape.Half;
@@ -53,7 +53,7 @@ namespace Core::Engine {
         return true;
     }
 
-    static inline bool CollideCircleAABB(Body& circle, Body& box, Manifold& m) {
+    inline bool CollideCircleAABB(Body& circle, Body& box, Manifold& m) {
         Vec2 closest = ClosestPointOnAABB(circle.Position, box);
         Vec2 d = closest - circle.Position;
 
@@ -64,8 +64,9 @@ namespace Core::Engine {
 
         // If circle center is inside box, d is ~0; pick a Normal from box faces
         Vec2 n;
-        if (dist > 1e-8f) {
+        if (dist > MIN_VEC_LEN) {
             n = Normalize(d); // from circle to closest point (toward box)
+            m.Penetration = r - dist;
         }
         else {
             // inside: choose direction of minimum distance to a face
@@ -79,16 +80,15 @@ namespace Core::Engine {
             else if (minv == right)  n = { 1, 0 };
             else if (minv == bottom) n = { 0, -1 };
             else n = { 0, 1 };
+            m.Penetration = r - minv;
         }
 
-        // We want Normal from A to B (circle -> box)
         m.Normal = n;
-        m.Penetration = r - dist;
         m.ContactPoint = closest;
         return true;
     }
 
-    static inline bool BuildManifold(Body& A, Body& B, Manifold& m) {
+    inline bool BuildManifold(Body& A, Body& B, Manifold& m) {
         if (A.Shape.Type == ShapeType::Circle && B.Shape.Type == ShapeType::Circle)
             return CollideCircleCircle(A, B, m);
 
@@ -109,7 +109,7 @@ namespace Core::Engine {
         return false;
     }
 
-    static inline void PositionalCorrection(Body& A, Body& B, const Manifold& m) {
+    inline void PositionalCorrection(Body& A, Body& B, const Manifold& m) {
         const float percent = 0.2f; // 20%
         const float slop = 0.01f;
 

@@ -1,37 +1,52 @@
 {
   "scenes": [
-    {
-      "name": "BinomialScene",
-      "gravity": { "x" : 0.0, "y" : 9.81 },
-      "bodies": [
-        {
-          "type": "circle",
-          "mass": 1.0,
-          "initialPosition": {
-            "x": 100.0,
-            "y": 100.0
-          },
-          "radius": 50.0,
-          "restitution": 0.1,
-          "friction": 0.8,
-          "isStatic": false
-        },
-        {
-          "type": "box",
-          "mass": 1.0,
-          "initialPosition": {
-            "x" : 200.0,
-            "y" : 100.0
-          },
-          "dimensions": {
-            "width": 50.0,
-            "height": 50.0
-          },
-          "restitution": 0.1,
-          "friction": 0.8,
-          "isStatic": false
-        }
-      ]
-    }
+      {
+          "name": "BinomialScene",
+          "gravity": { "x": 0.0, "y": 9.81 },
+          "bodies": [
+              {
+                "type": "circle",
+                "mass": 1.0,
+                "initialPosition": {
+                    "x": 50.0,
+                    "y": 10.0
+                },
+                "radius": 50.0,
+                "restitution": 0.1,
+                "friction": 0.8,
+                "isStatic": false
+              },
+              {
+                "type": "box",
+                "mass": 1.0,
+                "initialPosition": {
+                  "x": 20.0,
+                  "y": 10.0
+                },
+                "dimensions": {
+                  "width": 50.0,
+                  "height": 50.0
+                },
+                "restitution": 0.1,
+                "friction": 0.8,
+                "isStatic": false
+              },
+              {
+                "type": "box",
+                "mass": 0.0,
+                "initialPosition": {
+                  "x": 50.0,
+                  "y": 90.0
+                },
+                "dimensions": {
+                  "width": 1000.0,
+                  "height": 50.0
+                },
+                "restitution": 0.1,
+                "friction": 0.8,
+                "isStatic": true
+              }
+          ]
+      }
   ]
 }

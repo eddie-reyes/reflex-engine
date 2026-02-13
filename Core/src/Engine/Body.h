@@ -47,9 +47,7 @@ namespace Core::Engine
 
 	class Box : public Body {
 	public:
-
 		Box(float mass, float rest, float friction, bool isStatic, Vec2 initialPosition, Vec2 dimensions) : Body(mass, rest, friction, initialPosition, isStatic) { Shape.Type = ShapeType::AABB, Shape.Half = dimensions/2; };
-
 	};
 
 

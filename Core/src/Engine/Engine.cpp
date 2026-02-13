@@ -1,7 +1,6 @@
 #include "Engine.h"
 #include "Collision.h"
 #include "Impulse.h"
-#include <iostream>
 
 namespace Core::Engine {
 
@@ -13,27 +12,22 @@ namespace Core::Engine {
 
     void Engine::BuildScene(SceneType sceneTypeSerialized) {
 
-        nlohmann::json scene = ScenesData[sceneTypeSerialized];
+		ParsedJSONSceneData sceneData = ParseSceneData(sceneTypeSerialized);
+
+        for (const auto& bodyData : sceneData.bodies) {
         
-        m_Gravity = { scene["gravity"]["x"], scene["gravity"]["y"] };
+            switch (bodyData.type) {
 
-        for (auto& body : scene["bodies"]) {
-
-            float mass = body["mass"];
-            float restitution = body["restitution"];
-            float friction = body["friction"];
-			bool isStatic = body["isStatic"];
-			Vec2 initialPosition = { body["initialPosition"]["x"], body["initialPosition"]["y"] };
-
-            if (body["type"] == "circle") {
-				float radius = body["radius"];
-                m_Scene.push_back(std::make_unique<Circle>(mass, restitution, friction, isStatic, initialPosition, radius));
+            case ShapeType::Circle: 
+                m_Scene.push_back(std::make_unique<Circle>(bodyData.mass, bodyData.restitution, bodyData.friction, bodyData.isStatic, bodyData.initialPosition, bodyData.radius));
+                break;
+            
+            case ShapeType::AABB: 
+                m_Scene.push_back(std::make_unique<Box>(bodyData.mass, bodyData.restitution, bodyData.friction, bodyData.isStatic, bodyData.initialPosition, bodyData.dimensions));
+                break;
+            default:
+                break;
             }
-            if (body["type"] == "box") {
-                Vec2 dimensions = { body["dimensions"]["width"], body["dimensions"]["height"] };
-                m_Scene.push_back(std::make_unique<Box>(mass, restitution, friction, isStatic, initialPosition, dimensions));
-            }
-
         }
        
     }
@@ -54,9 +48,9 @@ namespace Core::Engine {
         std::vector<Manifold> contacts;
         contacts.reserve(m_Scene.size());
 
-        const int n = (int)m_Scene.size();
+        int n = (int)m_Scene.size();
         for (int i = 0; i < n; ++i) {
-            for (int j = i + 1; j < n; ++j) { //narrowphase
+			for (int j = i + 1; j < n; ++j) { //naive approach O(n^2): checks all pairs
                 Body& A = *m_Scene[i];
                 Body& B = *m_Scene[j];
                 if (A.IsStatic() && B.IsStatic()) continue;
@@ -99,6 +93,18 @@ namespace Core::Engine {
 		m_Scene.clear();
 		m_isPaused = true;
 
+    }
+
+    void Engine::MapSceneCoordsToWindow(float screenWidth, float screenHeight) {
+
+        for (auto& b : m_Scene) {
+
+            float projectedX = (screenWidth / 100) * b->Position.x;
+            float projectedY = (screenHeight / 100) * b->Position.y;
+
+			b->Position = { projectedX, projectedY };
+            
+        }
     }
 
 }

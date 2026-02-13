@@ -5,7 +5,7 @@
 namespace Core::Engine 
 {
 
-    static inline void ApplyImpulse(Body& A, Body& B, const Manifold& m) {
+    inline void ApplyImpulse(Body& A, Body& B, const Manifold& m) {
         Vec2 rv = B.Velocity - A.Velocity;
         float VelocityAlongNormal = Dot(rv, m.Normal);
 

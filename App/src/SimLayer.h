@@ -18,14 +18,12 @@ public:
 
 private:
 
-	void SetRelativePositionOfScene(int screenWidth, int screenHeight);
+	void SetRelativePositionOfUI(int screenWidth, int screenHeight);
 
 	bool OnMouseButtonPressed(Core::MouseButtonPressedEvent& event);
 
 	bool OnWindowResize(Core::WindowResizeEvent& event);
 
 	std::vector<std::unique_ptr<Core::Button>> m_Buttons;
-
-	
 
 };

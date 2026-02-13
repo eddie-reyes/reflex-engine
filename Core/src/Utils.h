@@ -12,7 +12,7 @@ enum class AssetType {
 
 namespace Core {
 
-	static inline Texture2D LoadAssetTexture(AssetType type) {
+	inline Texture2D LoadAssetTexture(AssetType type) {
 
 		std::filesystem::path path;
 

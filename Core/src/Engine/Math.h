@@ -23,14 +23,13 @@ namespace Core::Engine {
         Vec2& operator *= (float s) { x *= s; y *= s; return *this; }
     };
 
-    static inline float Dot(const Vec2& a, const Vec2& b) { return a.x * b.x + a.y * b.y; }
-    static inline float Len(const Vec2& v) { return std::sqrt(Dot(v, v)); }
+    inline float Dot(const Vec2& a, const Vec2& b) { return a.x * b.x + a.y * b.y; }
+    inline float Len(const Vec2& v) { return std::sqrt(Dot(v, v)); }
 
-    static inline Vec2 Normalize(const Vec2& v) {
+    inline Vec2 Normalize(const Vec2& v) {
         float l = Len(v);
         if (l <= MIN_VEC_LEN) return { 0, 0 };
         return v / l;
     }
- 
 
 }

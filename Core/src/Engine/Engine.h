@@ -25,6 +25,8 @@ namespace Core::Engine {
 
 		void Reset();
 
+		void MapSceneCoordsToWindow(float screenWidth, float screenHeight);
+
 	private:
 
 		std::vector<std::unique_ptr<Body>> m_Scene; //collection of bodies
@@ -32,6 +34,7 @@ namespace Core::Engine {
 		bool m_isPaused;
 
 		Vec2 m_Gravity = {0.0f, 9.81f}; 
+
 
 	};
 
