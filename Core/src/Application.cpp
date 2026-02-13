@@ -4,7 +4,6 @@
 
 #define MIN_SCREEN_WIDTH 1280
 #define MIN_SCREEN_HEIGHT 720
-#define SIMULATION_SPEED 5.0f
 #define TARGET_FPS 60
 
 namespace Core {
@@ -12,7 +11,6 @@ namespace Core {
 	static Application* s_Instance = nullptr;
 
 	Application::Application(const WindowProperties& windowProps) {
-
 
 		m_WindowProperties = windowProps;
 

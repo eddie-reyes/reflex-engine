@@ -9,12 +9,12 @@
               "mass": 1.0,
               "initialPosition": {
                 "x": 50.0,
-                "y": 70.0
+                "y": 50.0
               },
-              "initialAngle": -15.0,
+              "initialAngle": 0.0,
               "dimensions": {
                 "width": 100.0,
-                "height": 150.0
+                "height": 100.0
               },
               "restitution": 0.1,
               "friction": 0.8,
@@ -27,7 +27,7 @@
                 "x": 50.0,
                 "y": 90.0
               },
-              "initialAngle": 5.0,
+              "initialAngle": 0.0,
               "dimensions": {
                 "width": 1000.0,
                 "height": 50.0

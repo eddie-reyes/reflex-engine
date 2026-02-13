@@ -33,7 +33,7 @@ namespace Core::Engine
 		Body(float mass, float rest, float friction, Vec2 initialPosition, float initialAngle, bool isStatic) : invMass(isStatic ? 0.0f : 1 / mass), Restitution(rest), Friction(friction), Position(initialPosition), Angle(initialAngle) {};
 
 		Shape Shape{};
-		Vec2 Position, Velocity, Force;
+		Vec2 Position, Velocity;
 		float invMass, invInertia, Angle, Restitution, Friction;
 		float AngularVelociy = 0.0f;
 		float Torque = 0.0f;

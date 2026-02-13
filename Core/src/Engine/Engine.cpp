@@ -36,59 +36,62 @@ namespace Core::Engine {
 	{
         if (m_isPaused) return;
 
-        // 1) apply forces + integrate velocities
-        for (auto& b : m_Scene) {
-            if (b->IsStatic()) continue; //ignore static bodies
+        float dt_s = (dt * SIM_SPEED) / SUBSTEPS;
 
-			b->Velocity += m_Gravity * dt * SIM_SPEED;
-			b->AngularVelociy += (b->Torque * b->invInertia) * dt * SIM_SPEED;
+        //substep each tick for stability
+        for (int s = 0; s < SUBSTEPS; ++s) {
+           
+            // 1) apply forces + integrate velocities
+            for (auto& b : m_Scene) {
+                if (b->IsStatic()) continue; //ignore static bodies
 
-            b->AngularVelociy *= angularDamping;
+                b->Velocity += m_Gravity * dt_s;
+                //b->AngularVelociy += b->Torque * b->invInertia * dt_s;
 
-            b->Torque = 0.0f;
-			b->Force = { 0.0f, 0.0f };
+                //b->AngularVelociy *= angularDamping; //apply damping 
 
-            std::cout << "Angle: " << b->Angle << ", Angular Velocity:  " << b->AngularVelociy << std::endl;
+                b->Torque = 0.0f;
 
-        }
+            }
 
-        // 2) build contacts
-        std::vector<Manifold> contacts;
-        contacts.reserve(m_Scene.size());
+            // 2) build contacts
+            std::vector<Manifold> contacts;
+            contacts.reserve(m_Scene.size());
 
-        int n = (int)m_Scene.size();
-        for (int i = 0; i < n; ++i) {
-			for (int j = i + 1; j < n; ++j) { //naive approach O(n^2): checks all pairs
-                Body& A = *m_Scene[i];
-                Body& B = *m_Scene[j];
-                if (A.IsStatic() && B.IsStatic()) continue;
+            int n = (int)m_Scene.size();
+            for (int i = 0; i < n; ++i) {
+                for (int j = i + 1; j < n; ++j) { //naive approach O(n^2): checks all collision pairs
+                    Body& A = *m_Scene[i];
+                    Body& B = *m_Scene[j];
+                    if (A.IsStatic() && B.IsStatic()) continue;
 
-                Manifold m;
-                if (BuildManifold(A, B, m)) {
-                    m.ia = i; m.ib = j;
-                    contacts.push_back(m);
+                    Manifold m;
+                    if (BuildManifold(A, B, m)) {
+                        m.ia = i; m.ib = j;
+                        contacts.push_back(m);
+                    }
                 }
             }
-        }
 
-        // 3) iterative impulse solve
-        for (int it = 0; it < SOLVER_ITER; ++it) {
-            for (auto& c : contacts) {
-                ApplyImpulse(*m_Scene[c.ia], *m_Scene[c.ib], c);
+            // 3) iterative impulse solve
+            for (int it = 0; it < SOLVER_ITER; ++it) {
+                for (auto& c : contacts) {
+                    ApplyImpulse(*m_Scene[c.ia], *m_Scene[c.ib], c);
+                }
             }
-        }
 
-        // 4) integrate positions
-        for (auto& b : m_Scene) {
-            if (b->IsStatic()) continue;
-            b->Position += b->Velocity * dt * SIM_SPEED;
-            b->Angle += b->AngularVelociy * dt * SIM_SPEED; //integrate angle based on angular velocity
+            // 4) integrate positions and angles
+            for (auto& b : m_Scene) {
+                if (b->IsStatic()) continue;
+                b->Position += b->Velocity * dt_s;
+                b->Angle += b->AngularVelociy * dt_s;
 
-        }
+            }
 
-        // 5) positional correction
-        for (auto& c : contacts) {
-            PositionalCorrection(*m_Scene[c.ia], *m_Scene[c.ib], c);
+            // 5) positional correction
+            for (auto& c : contacts) {
+                PositionalCorrection(*m_Scene[c.ia], *m_Scene[c.ib], c);
+            }
         }
 
 	}

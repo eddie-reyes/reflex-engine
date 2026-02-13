@@ -1,10 +1,13 @@
 #pragma once
 
 #include "Body.h"
+#include <iostream>
 
 
 namespace Core::Engine {
 
+
+	//get verticies of OBB in world space
     inline void GetOBBVerts(const Body& b, std::vector<Vec2>& out) {
 
         Vec2 h = b.Shape.Half;
@@ -18,10 +21,13 @@ namespace Core::Engine {
         };
 
         for (int i = 0; i < 4; ++i) {
+
+			// rotate and translate to world space
             out[i] = b.Position + Rotate(local[i], b.Angle);
         }
     }
 
+	// project verts onto one of 4 axis (in OBB case), return min/max scalar values of interval along that axis
     inline void ProjectOntoAxis(const std::vector<Vec2>& verts, const Vec2& axis, float& outMin, float& outMax) {
         float p0 = Dot(verts[0], axis);
         outMin = outMax = p0;
@@ -64,8 +70,7 @@ namespace Core::Engine {
 
         // Convert edge directions into outward normals (perp)
         for (int i = 0; i < 4; ++i) {
-            Vec2 e = axes[i];
-            axes[i] = Normalize(Vec2{ -e.y, e.x });
+            axes[i] = Normalize(Vec2{ -axes[i].y, axes[i].x});
         }
 
         float bestOverlap = 1e30f;
@@ -81,6 +86,7 @@ namespace Core::Engine {
             float overlap = IntervalOverlap(minA, maxA, minB, maxB);
             if (overlap <= 0.0f) return false; // separating axis found
 
+			//select smallest overlap and its corresponding axis (for collision normal)
             if (overlap < bestOverlap) {
                 bestOverlap = overlap;
                 bestAxis = axis;
