@@ -27,7 +27,7 @@
                 "x": 50.0,
                 "y": 90.0
               },
-              "initialAngle": 0.0,
+              "initialAngle": 5.0,
               "dimensions": {
                 "width": 1000.0,
                 "height": 50.0
