@@ -24,7 +24,8 @@ namespace Core::Engine
 		int ia = -1, ib = -1;
 		float Penetration = 0;
 		Vec2 Normal;
-		Vec2 ContactPoint;
+		Vec2 Contacts[2];   // up to 2 for 2D box contacts
+		int ContactCount = 0;
 	};
 
 	class Body
@@ -36,7 +37,6 @@ namespace Core::Engine
 		Vec2 Position, Velocity;
 		float invMass, invInertia, Angle, Restitution, Friction;
 		float AngularVelociy = 0.0f;
-		float Torque = 0.0f;
 
 		bool IsStatic() const { return invMass == 0.0f; }
 	};

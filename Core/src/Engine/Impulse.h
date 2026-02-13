@@ -1,64 +1,79 @@
 #pragma once
 
 #include "Body.h"
+#include <iostream>
 
 namespace Core::Engine 
 {
 
     inline void ApplyImpulse(Body& A, Body& B, const Manifold& m) {
 
-        Vec2 ra = m.ContactPoint - A.Position;
-        Vec2 rb = m.ContactPoint - B.Position;
+		if (m.ContactCount == 0) std::cerr << "Error: No contacts to apply impulse to!" << std::endl;
 
-        Vec2 rv = (B.Velocity + Cross(B.AngularVelociy, rb)) - (A.Velocity + Cross(A.AngularVelociy, ra));
-        float VelocityAlongNormal = Dot(rv, m.Normal);
+        // For multiple contacts, split impulses
+        const float invCount = 1.0f / (float)m.ContactCount;
 
-        if (VelocityAlongNormal > 0) return;  //separating
+        for (int ci = 0; ci < m.ContactCount; ++ci) {
 
-        float e = std::min(A.Restitution, B.Restitution);
-        if (std::fabs(VelocityAlongNormal) < 0.5) e = 0.0f;
+			Vec2 contactPoint = m.Contacts[ci];
 
-        float raCrossN = Cross(ra, m.Normal);
-        float rbCrossN = Cross(rb, m.Normal);
+            Vec2 ra = contactPoint - A.Position;
+            Vec2 rb = contactPoint - B.Position;
 
-        float invMassSum = A.invMass + B.invMass + (raCrossN * raCrossN) * A.invInertia + (rbCrossN * rbCrossN) * B.invInertia;
-        if (invMassSum <= 0) return;
+            Vec2 rv = (B.Velocity + Cross(B.AngularVelociy, rb)) - (A.Velocity + Cross(A.AngularVelociy, ra));
+            float VelocityAlongNormal = Dot(rv, m.Normal);
 
-        float j = -(1.0f + e) * VelocityAlongNormal;
-        j /= invMassSum;
+            if (VelocityAlongNormal > 0) return;  //separating
 
-        Vec2 impulse = m.Normal * j;
-        A.Velocity -= impulse * A.invMass;
-        B.Velocity += impulse * B.invMass;
+            float e = std::min(A.Restitution, B.Restitution);
+            if (std::fabs(VelocityAlongNormal) < 0.5) e = 0.0f;
 
-        A.AngularVelociy -= Cross(ra, impulse) * A.invInertia;
-        B.AngularVelociy += Cross(rb, impulse) * B.invInertia;
+            float raCrossN = Cross(ra, m.Normal);
+            float rbCrossN = Cross(rb, m.Normal);
 
-        //Friction
-        rv = (B.Velocity + Cross(B.AngularVelociy, rb)) - (A.Velocity + Cross(A.AngularVelociy, ra));
-        Vec2 tangent = rv - m.Normal * Dot(rv, m.Normal);
-        float tLen = Len(tangent);
-        if (tLen > MIN_VEC_LEN) tangent = Normalize(tangent);
-        else return;
+            float invMassSum = A.invMass + B.invMass + (raCrossN * raCrossN) * A.invInertia + (rbCrossN * rbCrossN) * B.invInertia;
+            if (invMassSum <= 0) return;
 
-        float raCrossT = Cross(ra, tangent);
-        float rbCrossT = Cross(rb, tangent);
+            float j = -(1.0f + e) * VelocityAlongNormal;
+            j /= invMassSum;
 
-        invMassSum = A.invMass + B.invMass + (raCrossT * raCrossT) * A.invInertia + (rbCrossT * rbCrossT) * B.invInertia;
+            // split across contacts
+            j *= invCount;
 
-        float jt = -Dot(rv, tangent);
-        jt /= invMassSum;
+            Vec2 impulse = m.Normal * j;
+            A.Velocity -= impulse * A.invMass;
+            B.Velocity += impulse * B.invMass;
 
-        float mu = std::sqrt(A.Friction * B.Friction);
+            A.AngularVelociy -= Cross(ra, impulse) * A.invInertia;
+            B.AngularVelociy += Cross(rb, impulse) * B.invInertia;
 
-		float jtClamped = std::clamp(jt, -j * mu, j * mu);
+            //Friction
+            rv = (B.Velocity + Cross(B.AngularVelociy, rb)) - (A.Velocity + Cross(A.AngularVelociy, ra));
+            Vec2 tangent = rv - m.Normal * Dot(rv, m.Normal);
+            float tLen = Len(tangent);
+            if (tLen < MIN_VEC_LEN) return;
 
-        Vec2 FrictionImpulse = tangent * jtClamped;
-  
-        A.Velocity -= FrictionImpulse * A.invMass;
-        B.Velocity += FrictionImpulse * B.invMass;
+            tangent = Normalize(tangent);
 
-        A.AngularVelociy -= Cross(ra, FrictionImpulse) * A.invInertia;
-        B.AngularVelociy += Cross(rb, FrictionImpulse) * B.invInertia;
+            float raCrossT = Cross(ra, tangent);
+            float rbCrossT = Cross(rb, tangent);
+
+            invMassSum = A.invMass + B.invMass + (raCrossT * raCrossT) * A.invInertia + (rbCrossT * rbCrossT) * B.invInertia;
+
+            float jt = -Dot(rv, tangent);
+            jt /= invMassSum;
+
+            float mu = std::sqrt(A.Friction * B.Friction);
+
+            float jtClamped = std::clamp(jt, -j * mu, j * mu);
+
+            Vec2 FrictionImpulse = tangent * jtClamped;
+
+            A.Velocity -= FrictionImpulse * A.invMass;
+            B.Velocity += FrictionImpulse * B.invMass;
+
+            A.AngularVelociy -= Cross(ra, FrictionImpulse) * A.invInertia;
+            B.AngularVelociy += Cross(rb, FrictionImpulse) * B.invInertia;
+        }
     }
 }

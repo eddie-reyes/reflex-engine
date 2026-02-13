@@ -46,11 +46,8 @@ namespace Core::Engine {
                 if (b->IsStatic()) continue; //ignore static bodies
 
                 b->Velocity += m_Gravity * dt_s;
-                b->AngularVelociy += b->Torque * b->invInertia * dt_s;
 
                 b->AngularVelociy *= ANGULAR_DAMPING; //apply damping 
-
-                b->Torque = 0.0f;
 
             }
 
@@ -58,9 +55,10 @@ namespace Core::Engine {
             std::vector<Manifold> contacts;
             contacts.reserve(m_Scene.size());
 
-            int n = (int)m_Scene.size();
-            for (int i = 0; i < n; ++i) {
-                for (int j = i + 1; j < n; ++j) { //naive approach O(n^2): checks all collision pairs
+            // naive approach O(n ^ 2) : checks all collision pairs
+			// ideally should implement something like broadphase collision detection in future
+            for (int i = 0; i < m_Scene.size(); ++i) {
+                for (int j = i + 1; j < m_Scene.size(); ++j) { 
                     Body& A = *m_Scene[i];
                     Body& B = *m_Scene[j];
                     if (A.IsStatic() && B.IsStatic()) continue;

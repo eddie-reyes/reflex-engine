@@ -11,13 +11,14 @@
                 "x": 50.0,
                 "y": 50.0
               },
-              "initialAngle": 0.0,
-              "dimensions": {
+              "dimensions": 
+                {
                 "width": 100.0,
-                "height": 100.0
+                "height": 400.0
               },
+              "initialAngle":0.0,
               "restitution": 0.1,
-              "friction": 0.8,
+              "friction": 0.4,
               "isStatic": false
             },
             {
@@ -27,13 +28,13 @@
                 "x": 50.0,
                 "y": 90.0
               },
-              "initialAngle": 0.0,
+              "initialAngle": 15.0,
               "dimensions": {
                 "width": 1000.0,
                 "height": 50.0
               },
               "restitution": 0.1,
-              "friction": 0.8,
+              "friction": 0.4,
               "isStatic": true
             }
           ]

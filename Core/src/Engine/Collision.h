@@ -6,7 +6,63 @@
 
 namespace Core::Engine {
 
+    inline int ClipSegmentToLine(Vec2 out[2], Vec2 in[2], const Vec2& n, float c) {
+        // Keep points where Dot(n, x) <= c
+        int sp = 0;
 
+        float d0 = Dot(n, in[0]) - c;
+        float d1 = Dot(n, in[1]) - c;
+
+        if (d0 <= 0.0f) out[sp++] = in[0];
+        if (d1 <= 0.0f) out[sp++] = in[1];
+
+        if (d0 * d1 < 0.0f) {
+            float t = d0 / (d0 - d1);
+            out[sp++] = in[0] + (in[1] - in[0]) * t;
+        }
+
+        return sp;
+    }
+
+    // verts order from GetOBBVerts: 0(-x,-y), 1(x,-y), 2(x,y), 3(-x,y)
+    inline void GetFaceVertices(const std::vector<Vec2>& v, const Vec2& faceNormal, Vec2& outV1, Vec2& outV2) {
+        // Determine which faceNormal aligns with, using dot to pick +/-X or +/-Y in world space.
+        // We'll compare against the box's world axes derived from its verts:
+        Vec2 edgeX = Normalize(v[1] - v[0]); // roughly +X axis (rotated)
+        Vec2 edgeY = Normalize(v[3] - v[0]); // roughly +Y axis (rotated)
+
+        float dx = Dot(faceNormal, edgeX);
+        float dy = Dot(faceNormal, edgeY);
+
+        if (std::fabs(dx) > std::fabs(dy)) {
+            if (dx > 0) { outV1 = v[1]; outV2 = v[2]; } // +X face
+            else { outV1 = v[3]; outV2 = v[0]; } // -X face
+        }
+        else {
+            if (dy > 0) { outV1 = v[2]; outV2 = v[3]; } // +Y face
+            else { outV1 = v[0]; outV2 = v[1]; } // -Y face
+        }
+    }
+
+    inline void GetIncidentFace(const std::vector<Vec2>& vInc, const Vec2& refNormal, Vec2 out[2]) {
+        // pick incident face whose normal is most anti-parallel to refNormal
+        Vec2 edgeX = Normalize(vInc[1] - vInc[0]);
+        Vec2 edgeY = Normalize(vInc[3] - vInc[0]);
+
+        Vec2 normals[4] = { edgeX, edgeX * -1, edgeY, edgeY * -1}; // approx face normals
+        float minDot = 1e30f;
+        Vec2 bestN{ 0,0 };
+
+        for (int i = 0; i < 4; ++i) {
+            float d = Dot(refNormal, normals[i]);
+            if (d < minDot) { minDot = d; bestN = normals[i]; }
+        }
+
+        Vec2 v1, v2;
+        GetFaceVertices(vInc, bestN, v1, v2);
+        out[0] = v1;
+        out[1] = v2;
+    }
 	//get verticies of OBB in world space
     inline void GetOBBVerts(const Body& b, std::vector<Vec2>& out) {
 
@@ -75,6 +131,7 @@ namespace Core::Engine {
 
         float bestOverlap = 1e30f;
         Vec2 bestAxis{ 0,0 };
+        int bestAxisIndex = -1;
 
         for (int i = 0; i < 4; ++i) {
             Vec2 axis = axes[i];
@@ -90,6 +147,7 @@ namespace Core::Engine {
             if (overlap < bestOverlap) {
                 bestOverlap = overlap;
                 bestAxis = axis;
+				bestAxisIndex = i;
             }
         }
 
@@ -100,11 +158,72 @@ namespace Core::Engine {
         m.Normal = bestAxis;
         m.Penetration = bestOverlap;
 
-        // Simple stable-ish contact point approximation:
-        // midpoint between support points along the collision normal
-        Vec2 pA = SupportPoint(A, m.Normal * -1);
-        Vec2 pB = SupportPoint(B, m.Normal);
-        m.ContactPoint = (pA + pB) * 0.5f;
+        // --- build clipped manifold (up to 2 points) ---
+        m.ContactCount = 0;
+
+        Vec2 refV1, refV2;
+        std::vector<Vec2> refVerts = (bestAxisIndex < 2) ? aV : bV; // reference box verts
+        std::vector<Vec2> incVerts = (bestAxisIndex < 2) ? bV : aV; // incident box verts
+
+        Vec2 refNormal = m.Normal;
+        // If reference is B (bestIndex >= 2), refNormal should point from ref -> incident for clipping,
+        // but your m.Normal is always A->B.
+        // So flip for clipping when ref is B:
+        if (bestAxisIndex >= 2) refNormal = refNormal * -1;
+
+        // reference face
+        GetFaceVertices(refVerts, refNormal, refV1, refV2);
+
+        // incident face segment
+        Vec2 incident[2];
+        GetIncidentFace(incVerts, refNormal, incident);
+
+        // side planes of the reference face
+        Vec2 side = Normalize(refV2 - refV1);
+
+        // Clip against first side
+        Vec2 clip1[2];
+        Vec2 clip2[2];
+
+        int np = ClipSegmentToLine(clip1, incident, side * -1, Dot(side * -1, refV1));
+        if (np < 2) return true; // still colliding, but degenerate manifold
+
+        // Clip against second side
+        np = ClipSegmentToLine(clip2, clip1, side, Dot(side, refV2));
+        if (np < 2) return true;
+
+        // Now keep points that are behind the reference face
+        float refC = Dot(refNormal, refV1);
+
+        for (int i = 0; i < 2; ++i) {
+            float sep = Dot(refNormal, clip2[i]) - refC; // <= 0 means inside/behind face
+            if (sep <= 0.0f) {
+                // Convert back to your required A->B normal/    convention:
+                Vec2 p = clip2[i];
+
+                // If reference was B, we clipped in flipped space; the points are still world points,
+                // but we must ensure we store contacts consistent with A/B ordering:
+                // contacts are always world points, so no change needed.
+
+                m.Contacts[m.ContactCount++] = p;
+                if (m.ContactCount == 2) break;
+            }
+        }
+
+        // If we clipped using ref=B (bestIndex>=2), we must flip back the manifold normal to A->B:
+        if (bestAxisIndex >= 2) {
+            // we already had m.Normal = bestAxis (A->B), so no change here
+        }
+
+        // If contact count ended up 0, fall back to your old midpoint approximation (rare but safe)
+        if (m.ContactCount == 0) {
+            Vec2 pA = SupportPoint(A, m.Normal * -1);
+            Vec2 pB = SupportPoint(B, m.Normal);
+            m.Contacts[0] = (pA + pB) * 0.5f;
+            m.ContactCount = 1;
+        }
+
+        return true;
 
         return true;
     }
@@ -158,7 +277,8 @@ namespace Core::Engine {
 
         m.Normal = normalWorld;        // points circle(A) -> box(B)
         m.Penetration = penetration;
-        m.ContactPoint = closestWorld;
+        m.Contacts[0] = closestWorld;
+		m.ContactCount = 1;
         return true;
     }
 
@@ -182,7 +302,8 @@ namespace Core::Engine {
 
         m.Normal = n;
         m.Penetration = r - dist;
-        m.ContactPoint = A.Position + n * A.Shape.Radius;
+        m.Contacts[0] = A.Position + n * A.Shape.Radius;
+        m.ContactCount = 1;
         return true;
     }
 
@@ -208,7 +329,8 @@ namespace Core::Engine {
         }
 
         // simple contact point approximation: midpoint of overlap along Normal
-        m.ContactPoint = (A.Position + B.Position) * 0.5f;
+        m.Contacts[0] = (A.Position + B.Position) * 0.5f;
+        m.ContactCount = 1;
         return true;
     }
 
@@ -243,7 +365,8 @@ namespace Core::Engine {
         }
 
         m.Normal = n;
-        m.ContactPoint = closest;
+        m.Contacts[0] = closest;
+		m.ContactCount = 1;
         return true;
     }
 
