@@ -10,7 +10,7 @@ enum class AssetType {
 
 };
 
-namespace Core {
+namespace Core::AssetManager {
 
 	inline Texture2D LoadAssetTexture(AssetType type) {
 

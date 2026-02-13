@@ -32,4 +32,23 @@ namespace Core::Engine {
         return v / l;
     }
 
+    inline Vec2 Cross(float w, const Vec2& v) {
+        return Vec2(-w * v.y, w * v.x);
+    }
+
+    inline float Cross(const Vec2& a, const Vec2& b) {
+        return a.x * b.y - a.y * b.x;
+    }
+
+    inline Vec2 Rotate(const Vec2& v, float a) {
+        float c = std::cos(a), s = std::sin(a);
+        return { v.x * c - v.y * s, v.x * s + v.y * c };
+    }
+
+    inline Vec2 RotateInv(const Vec2& v, float a) {
+        // rotate by -a
+        float c = std::cos(a), s = std::sin(a);
+        return { v.x * c + v.y * s, -v.x * s + v.y * c };
+    }
+
 }

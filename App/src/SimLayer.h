@@ -6,6 +6,8 @@
 
 #include <vector>
 
+constexpr float R_TO_DEG_RATIO = 57.2958;
+
 class SimLayer : public Core::Layer
 {
 public:

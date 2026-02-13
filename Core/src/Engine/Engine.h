@@ -4,8 +4,8 @@
 #include "Body.h"
 #include "JSONParser.h"
 
-#define SIM_SPEED 5.0f;
-
+constexpr auto SIM_SPEED = 5.0f;;
+constexpr auto angularDamping = 0.98f; // per tick or tuned with dt
 constexpr auto SOLVER_ITER = 10;
 
 namespace Core::Engine {

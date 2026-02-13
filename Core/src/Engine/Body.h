@@ -7,7 +7,7 @@
 namespace Core::Engine
 {
 
-	enum class ShapeType { Circle, AABB };
+	enum class ShapeType { Circle, AABB, OBB };
 
 	struct Shape {
 
@@ -30,24 +30,36 @@ namespace Core::Engine
 	class Body
 	{
 	public:
-		Body(float mass, float rest, float friction, Vec2 initialPosition, bool isStatic) : invMass(isStatic ? 0.0f : 1 / mass), Restitution(rest), Friction(friction), Position(initialPosition) {};
+		Body(float mass, float rest, float friction, Vec2 initialPosition, float initialAngle, bool isStatic) : invMass(isStatic ? 0.0f : 1 / mass), Restitution(rest), Friction(friction), Position(initialPosition), Angle(initialAngle) {};
 
 		Shape Shape{};
 		Vec2 Position, Velocity, Force;
-		float invMass, Restitution, Friction;
+		float invMass, invInertia, Angle, Restitution, Friction;
+		float AngularVelociy = 0.0f;
+		float Torque = 0.0f;
 
 		bool IsStatic() const { return invMass == 0.0f; }
 	};
-
+	 
 	class Circle : public Body {
 	public:
-		Circle(float mass, float rest, float friction, bool isStatic, Vec2 initialPosition, float radius) : Body(mass, rest, friction, initialPosition, isStatic) { Shape.Type = ShapeType::Circle, Shape.Radius = radius; };
+		Circle(float mass, float rest, float friction, bool isStatic, Vec2 initialPosition, float initialAngle, float radius) : Body(mass, rest, friction, initialPosition, initialAngle, isStatic) { 
+			Shape.Type = ShapeType::Circle;
+			Shape.Radius = radius;
+			invInertia = isStatic ? 0.0f : 1.0f / (0.5f * mass * radius * radius);
+		};
 
 	};
 
 	class Box : public Body {
 	public:
-		Box(float mass, float rest, float friction, bool isStatic, Vec2 initialPosition, Vec2 dimensions) : Body(mass, rest, friction, initialPosition, isStatic) { Shape.Type = ShapeType::AABB, Shape.Half = dimensions/2; };
+
+		Box(float mass, float rest, float friction, bool isStatic, Vec2 initialPosition, float initialAngle, Vec2 dimensions) : Body(mass, rest, friction, initialPosition, initialAngle, isStatic) {
+			//Shape.Type = (initialAngle == 0.0f && isStatic ? ShapeType::AABB : ShapeType::OBB);
+			Shape.Type = ShapeType::OBB;
+			Shape.Half = dimensions / 2;
+			invInertia = isStatic ? 0.0f : 1.0f / (mass * (dimensions.x * dimensions.x + dimensions.y * dimensions.y) / 12.0f);
+		};
 	};
 
 

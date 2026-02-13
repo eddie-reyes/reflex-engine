@@ -4,48 +4,38 @@
           "name": "BinomialScene",
           "gravity": { "x": 0.0, "y": 9.81 },
           "bodies": [
-              {
-                "type": "circle",
-                "mass": 1.0,
-                "initialPosition": {
-                    "x": 50.0,
-                    "y": 10.0
-                },
-                "radius": 50.0,
-                "restitution": 0.1,
-                "friction": 0.8,
-                "isStatic": false
+            {
+              "type": "box",
+              "mass": 1.0,
+              "initialPosition": {
+                "x": 50.0,
+                "y": 70.0
               },
-              {
-                "type": "box",
-                "mass": 1.0,
-                "initialPosition": {
-                  "x": 20.0,
-                  "y": 10.0
-                },
-                "dimensions": {
-                  "width": 50.0,
-                  "height": 50.0
-                },
-                "restitution": 0.1,
-                "friction": 0.8,
-                "isStatic": false
+              "initialAngle": -15.0,
+              "dimensions": {
+                "width": 100.0,
+                "height": 150.0
               },
-              {
-                "type": "box",
-                "mass": 0.0,
-                "initialPosition": {
-                  "x": 50.0,
-                  "y": 90.0
-                },
-                "dimensions": {
-                  "width": 1000.0,
-                  "height": 50.0
-                },
-                "restitution": 0.1,
-                "friction": 0.8,
-                "isStatic": true
-              }
+              "restitution": 0.1,
+              "friction": 0.8,
+              "isStatic": false
+            },
+            {
+              "type": "box",
+              "mass": 0.0,
+              "initialPosition": {
+                "x": 50.0,
+                "y": 90.0
+              },
+              "initialAngle": 0.0,
+              "dimensions": {
+                "width": 1000.0,
+                "height": 50.0
+              },
+              "restitution": 0.1,
+              "friction": 0.8,
+              "isStatic": true
+            }
           ]
       }
   ]

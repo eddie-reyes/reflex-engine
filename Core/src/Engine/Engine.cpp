@@ -7,23 +7,23 @@ namespace Core::Engine {
 	Engine::Engine()
 	{
         Reset();
-        BuildScenesFromFile();
+        JSONParser::BuildScenesFromJSON();
 	}
 
     void Engine::BuildScene(SceneType sceneTypeSerialized) {
 
-		ParsedJSONSceneData sceneData = ParseSceneData(sceneTypeSerialized);
+		ParsedJSONSceneData sceneData = JSONParser::ParseSceneData(sceneTypeSerialized);
 
         for (const auto& bodyData : sceneData.bodies) {
         
             switch (bodyData.type) {
 
             case ShapeType::Circle: 
-                m_Scene.push_back(std::make_unique<Circle>(bodyData.mass, bodyData.restitution, bodyData.friction, bodyData.isStatic, bodyData.initialPosition, bodyData.radius));
+                m_Scene.push_back(std::make_unique<Circle>(bodyData.mass, bodyData.restitution, bodyData.friction, bodyData.isStatic, bodyData.initialPosition, bodyData.initialAngle, bodyData.radius));
                 break;
             
-            case ShapeType::AABB: 
-                m_Scene.push_back(std::make_unique<Box>(bodyData.mass, bodyData.restitution, bodyData.friction, bodyData.isStatic, bodyData.initialPosition, bodyData.dimensions));
+            case ShapeType::OBB:
+                m_Scene.push_back(std::make_unique<Box>(bodyData.mass, bodyData.restitution, bodyData.friction, bodyData.isStatic, bodyData.initialPosition, bodyData.initialAngle, bodyData.dimensions));
                 break;
             default:
                 break;
@@ -41,6 +41,14 @@ namespace Core::Engine {
             if (b->IsStatic()) continue; //ignore static bodies
 
 			b->Velocity += m_Gravity * dt * SIM_SPEED;
+			b->AngularVelociy += (b->Torque * b->invInertia) * dt * SIM_SPEED;
+
+            b->AngularVelociy *= angularDamping;
+
+            b->Torque = 0.0f;
+			b->Force = { 0.0f, 0.0f };
+
+            std::cout << "Angle: " << b->Angle << ", Angular Velocity:  " << b->AngularVelociy << std::endl;
 
         }
 
@@ -74,6 +82,8 @@ namespace Core::Engine {
         for (auto& b : m_Scene) {
             if (b->IsStatic()) continue;
             b->Position += b->Velocity * dt * SIM_SPEED;
+            b->Angle += b->AngularVelociy * dt * SIM_SPEED; //integrate angle based on angular velocity
+
         }
 
         // 5) positional correction

@@ -33,12 +33,20 @@ void SimLayer::OnRender()
         if (b->Shape.Type == Core::Engine::ShapeType::Circle) {
 
 			DrawCircleV({ b->Position.x, b->Position.y }, b->Shape.Radius, RED);
+			
 
         }
+		if (b->Shape.Type == Core::Engine::ShapeType::AABB) {
+		
 
-        if (b->Shape.Type == Core::Engine::ShapeType::AABB) {
+			DrawRectangleV({ b->Position.x - b->Shape.Half.x, b->Position.y - b->Shape.Half.y }, { b->Shape.Half.x * 2, b->Shape.Half.y * 2 }, RED);
+		
+		}
+
+        if (b->Shape.Type == Core::Engine::ShapeType::OBB) {
         
-			DrawRectangleV({ b->Position.x - b->Shape.Half.x , b->Position.y - b->Shape.Half.y }, {b->Shape.Half.x * 2, b->Shape.Half.y * 2}, RED);
+			DrawRectanglePro({ b->Position.x, b->Position.y, b->Shape.Half.x * 2, b->Shape.Half.y * 2 }, {b->Shape.Half.x, b->Shape.Half.y}, b->Angle * R_TO_DEG_RATIO, RED);
+
         }
     }
 
