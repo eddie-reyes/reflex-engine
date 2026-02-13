@@ -46,9 +46,9 @@ namespace Core::Engine {
                 if (b->IsStatic()) continue; //ignore static bodies
 
                 b->Velocity += m_Gravity * dt_s;
-                //b->AngularVelociy += b->Torque * b->invInertia * dt_s;
+                b->AngularVelociy += b->Torque * b->invInertia * dt_s;
 
-                //b->AngularVelociy *= angularDamping; //apply damping 
+                b->AngularVelociy *= ANGULAR_DAMPING; //apply damping 
 
                 b->Torque = 0.0f;
 
@@ -74,7 +74,7 @@ namespace Core::Engine {
             }
 
             // 3) iterative impulse solve
-            for (int it = 0; it < SOLVER_ITER; ++it) {
+            for (int it = 0; it < IMPULSE_SOLVER_ITER; ++it) {
                 for (auto& c : contacts) {
                     ApplyImpulse(*m_Scene[c.ia], *m_Scene[c.ib], c);
                 }

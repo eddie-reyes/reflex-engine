@@ -16,6 +16,7 @@ namespace Core::Engine
         if (VelocityAlongNormal > 0) return;  //separating
 
         float e = std::min(A.Restitution, B.Restitution);
+        if (std::fabs(VelocityAlongNormal) < 0.5) e = 0.0f;
 
         float raCrossN = Cross(ra, m.Normal);
         float rbCrossN = Cross(rb, m.Normal);

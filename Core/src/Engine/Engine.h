@@ -5,9 +5,9 @@
 #include "JSONParser.h"
 
 constexpr auto SIM_SPEED = 5.0f; //speed factor
-constexpr auto SOLVER_ITER = 10; //impulse solver
+constexpr auto IMPULSE_SOLVER_ITER = 10; //impulse solver
 constexpr auto SUBSTEPS = 5; //substeps per tick of simulation
-constexpr auto angularDamping = 0.98f; 
+constexpr auto ANGULAR_DAMPING = 0.98f; //prevents bodies from spinning indefinitely
 
 namespace Core::Engine {
 

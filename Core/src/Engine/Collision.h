@@ -28,7 +28,7 @@ namespace Core::Engine {
     }
 
 	// project verts onto one of 4 axis (in OBB case), return min/max scalar values of interval along that axis
-    inline void ProjectOntoAxis(const std::vector<Vec2>& verts, const Vec2& axis, float& outMin, float& outMax) {
+    inline void ProjectPointOntoAxis(const std::vector<Vec2>& verts, const Vec2& axis, float& outMin, float& outMax) {
         float p0 = Dot(verts[0], axis);
         outMin = outMax = p0;
         for (int i = 1; i < 4; ++i) {
@@ -80,8 +80,8 @@ namespace Core::Engine {
             Vec2 axis = axes[i];
 
             float minA, maxA, minB, maxB;
-            ProjectOntoAxis(aV, axis, minA, maxA);
-            ProjectOntoAxis(bV, axis, minB, maxB);
+            ProjectPointOntoAxis(aV, axis, minA, maxA);
+            ProjectPointOntoAxis(bV, axis, minB, maxB);
 
             float overlap = IntervalOverlap(minA, maxA, minB, maxB);
             if (overlap <= 0.0f) return false; // separating axis found
