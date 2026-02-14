@@ -6,7 +6,7 @@ namespace Core::Engine {
 
 	Engine::Engine()
 	{
-        Reset();
+        ClearScene();
         JSONParser::BuildScenesFromJSON();
 	}
 
@@ -19,16 +19,18 @@ namespace Core::Engine {
             switch (bodyData.type) {
 
             case ShapeType::Circle: 
-                m_Scene.push_back(std::make_unique<Circle>(bodyData.mass, bodyData.restitution, bodyData.friction, bodyData.isStatic, bodyData.initialPosition, bodyData.initialAngle, bodyData.radius));
+                m_Scene.push_back(std::make_unique<Circle>(bodyData.mass, bodyData.restitution, bodyData.friction, bodyData.isStatic, bodyData.initialPosition, bodyData.initialAngle, bodyData.radius, RED));
                 break;
             
             case ShapeType::OBB:
-                m_Scene.push_back(std::make_unique<Box>(bodyData.mass, bodyData.restitution, bodyData.friction, bodyData.isStatic, bodyData.initialPosition, bodyData.initialAngle, bodyData.dimensions));
+                m_Scene.push_back(std::make_unique<Box>(bodyData.mass, bodyData.restitution, bodyData.friction, bodyData.isStatic, bodyData.initialPosition, bodyData.initialAngle, bodyData.dimensions, RED));
                 break;
             default:
                 break;
             }
         }
+
+		m_CurrentScene = sceneTypeSerialized;
        
     }
 
@@ -98,7 +100,7 @@ namespace Core::Engine {
 		m_isPaused = !m_isPaused;
     }
 
-    void Engine::Reset()
+    void Engine::ClearScene()
     {
 
 		m_Scene.clear();
@@ -106,12 +108,23 @@ namespace Core::Engine {
 
     }
 
-    void Engine::MapSceneCoordsToWindow(float screenWidth, float screenHeight) {
+    void Engine::ResetScene() {
+
+        ClearScene();
+		BuildScene(m_CurrentScene);
+
+    }
+
+    void Engine::MapSceneCoordsToWindow(float in_end, float out_end) {
 
         for (auto& b : m_Scene) {
 
-            float projectedX = (screenWidth / 100) * b->Position.x;
-            float projectedY = (screenHeight / 100) * b->Position.y;
+            float projectedX =  (out_end * b->Position.x) / (in_end);
+            float projectedY =  (out_end * b->Position.y) / (in_end);
+
+            if (b->Shape.Type == ShapeType::Circle) {
+				b->Shape.Radius *= (out_end / in_end); //scale radius by same factor as x axis
+			}
 
 			b->Position = { projectedX, projectedY };
             

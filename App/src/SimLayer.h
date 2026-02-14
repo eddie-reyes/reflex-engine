@@ -28,4 +28,6 @@ private:
 
 	std::vector<std::unique_ptr<Core::Button>> m_Buttons;
 
+	float m_SimBounds;
+
 };

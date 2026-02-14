@@ -24,9 +24,11 @@ namespace Core::Engine {
 
 		void TogglePause();
 
-		void Reset();
+		void ClearScene();
 
-		void MapSceneCoordsToWindow(float screenWidth, float screenHeight);
+		void ResetScene();
+
+		void MapSceneCoordsToWindow(float in_end, float out_end);
 
 	private:
 
@@ -34,8 +36,9 @@ namespace Core::Engine {
 
 		bool m_isPaused;
 
-		Vec2 m_Gravity = {0.0f, 9.81f}; 
+		SceneType m_CurrentScene;
 
+		Vec2 m_Gravity = {0.0f, 9.81f}; 
 
 	};
 

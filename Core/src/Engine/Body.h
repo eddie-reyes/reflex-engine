@@ -1,8 +1,7 @@
 #pragma once
 
 #include "Math.h"
-
-#define STATIC_BODY 0.0f
+#include "raylib.h"
 
 namespace Core::Engine
 {
@@ -31,8 +30,9 @@ namespace Core::Engine
 	class Body
 	{
 	public:
-		Body(float mass, float rest, float friction, Vec2 initialPosition, float initialAngle, bool isStatic) : invMass(isStatic ? 0.0f : 1 / mass), Restitution(rest), Friction(friction), Position(initialPosition), Angle(initialAngle) {};
+		Body(float mass, float rest, float friction, Vec2 initialPosition, float initialAngle, bool isStatic, Color color) : invMass(isStatic ? 0.0f : 1 / mass), Restitution(rest), Friction(friction), Position(initialPosition), Angle(initialAngle), FillColor(color) {};
 
+		Color FillColor;
 		Shape Shape{};
 		Vec2 Position, Velocity;
 		float invMass, invInertia, Angle, Restitution, Friction;
@@ -43,7 +43,7 @@ namespace Core::Engine
 	 
 	class Circle : public Body {
 	public:
-		Circle(float mass, float rest, float friction, bool isStatic, Vec2 initialPosition, float initialAngle, float radius) : Body(mass, rest, friction, initialPosition, initialAngle, isStatic) { 
+		Circle(float mass, float rest, float friction, bool isStatic, Vec2 initialPosition, float initialAngle, float radius, Color color) : Body(mass, rest, friction, initialPosition, initialAngle, isStatic, color) { 
 			Shape.Type = ShapeType::Circle;
 			Shape.Radius = radius;
 			invInertia = isStatic ? 0.0f : 1.0f / (0.5f * mass * radius * radius);
@@ -54,7 +54,7 @@ namespace Core::Engine
 	class Box : public Body {
 	public:
 
-		Box(float mass, float rest, float friction, bool isStatic, Vec2 initialPosition, float initialAngle, Vec2 dimensions) : Body(mass, rest, friction, initialPosition, initialAngle, isStatic) {
+		Box(float mass, float rest, float friction, bool isStatic, Vec2 initialPosition, float initialAngle, Vec2 dimensions, Color color) : Body(mass, rest, friction, initialPosition, initialAngle, isStatic, color) {
 			//Shape.Type = (initialAngle == 0.0f && isStatic ? ShapeType::AABB : ShapeType::OBB);
 			Shape.Type = ShapeType::OBB;
 			Shape.Half = dimensions / 2;

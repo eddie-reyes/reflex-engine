@@ -20,14 +20,14 @@ set_target_properties(App PROPERTIES
 set(ASSET_DIR "${CMAKE_CURRENT_SOURCE_DIR}/assets")
 
 # set output directory for App
-set(TARGET_OUTPUT_DIR $<TARGET_FILE_DIR:App>)
+set(TARGET_OUTPUT_DIR $<TARGET_FILE_DIR:App> )
 
-# Add a post-build command to copy the entire directory
-add_custom_command(
-    TARGET App
-    POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-    "${ASSET_DIR}"
-    "${TARGET_OUTPUT_DIR}/assets"
-    COMMENT "Copying assets to the output directory"
-)
+# Add a post-build command to copy assets directory
+#add_custom_command(
+#    TARGET App
+#    POST_BUILD
+#    COMMAND ${CMAKE_COMMAND} -E copy_directory
+#    "${ASSET_DIR}"
+#    "${TARGET_OUTPUT_DIR}/assets"
+#    COMMENT "Copying assets to the output directory"
+#)

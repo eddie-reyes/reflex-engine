@@ -8,13 +8,17 @@ SimLayer::SimLayer()
 	
 	m_Buttons.push_back(std::make_unique<Core::Button>([]() { Core::Application::Get().Engine.TogglePause(); }));
 
+	m_Buttons.push_back(std::make_unique<Core::Button>([]() { Core::Application::Get().Engine.ResetScene(); }));
+
 	m_Buttons.push_back(std::make_unique<Core::Button>([this]() { 
-		Core::Application::Get().Engine.Reset();
+		Core::Application::Get().Engine.ClearScene();
 		TransitionTo<MenuLayer>();
 	}));
 
-	Core::Application::Get().Engine.MapSceneCoordsToWindow(GetScreenWidth(), GetScreenHeight());
-	SetRelativePositionOfUI(GetScreenWidth(), GetScreenHeight());
+	m_SimBounds = (float)GetScreenWidth();
+
+	SetRelativePositionOfUI((float)GetScreenWidth(), (float)GetScreenHeight());
+	Core::Application::Get().Engine.MapSceneCoordsToWindow(200.0f, m_SimBounds);
 }
 
 void SimLayer::OnEvent(Core::Event& event)
@@ -32,20 +36,18 @@ void SimLayer::OnRender()
     for (auto& b : bodies) {
         if (b->Shape.Type == Core::Engine::ShapeType::Circle) {
 
-			DrawCircleV({ b->Position.x, b->Position.y }, b->Shape.Radius, RED);
-			
+			DrawCircleV({ b->Position.x, b->Position.y }, b->Shape.Radius, b->FillColor);
 
         }
 		if (b->Shape.Type == Core::Engine::ShapeType::AABB) {
-		
 
-			DrawRectangleV({ b->Position.x - b->Shape.Half.x, b->Position.y - b->Shape.Half.y }, { b->Shape.Half.x * 2, b->Shape.Half.y * 2 }, RED);
+			DrawRectangleV({ b->Position.x - b->Shape.Half.x, b->Position.y - b->Shape.Half.y }, { b->Shape.Half.x * 2, b->Shape.Half.y * 2 }, b->FillColor);
 		
 		}
 
         if (b->Shape.Type == Core::Engine::ShapeType::OBB) {
         
-			DrawRectanglePro({ b->Position.x, b->Position.y, b->Shape.Half.x * 2, b->Shape.Half.y * 2 }, {b->Shape.Half.x, b->Shape.Half.y}, b->Angle * R_TO_DEG_RATIO, RED);
+			DrawRectanglePro({ b->Position.x, b->Position.y, b->Shape.Half.x * 2, b->Shape.Half.y * 2 }, {b->Shape.Half.x, b->Shape.Half.y}, b->Angle * R_TO_DEG_RATIO, b->FillColor);
 
         }
     }
@@ -84,7 +86,10 @@ bool SimLayer::OnMouseButtonPressed(Core::MouseButtonPressedEvent& event)
 
 bool SimLayer::OnWindowResize(Core::WindowResizeEvent& event)
 {
-	SetRelativePositionOfUI(event.GetWidth(), event.GetHeight());
+
+	Core::Application::Get().Engine.MapSceneCoordsToWindow(m_SimBounds, (float)event.GetWidth());
+	m_SimBounds = (float)event.GetWidth();
+	SetRelativePositionOfUI((float)event.GetWidth(), (float)event.GetHeight());
 
 	return true;
 }

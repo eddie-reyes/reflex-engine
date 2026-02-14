@@ -1,8 +1,6 @@
 #pragma once
 
 #include "Body.h"
-#include <iostream>
-
 
 namespace Core::Engine {
 
@@ -224,8 +222,6 @@ namespace Core::Engine {
         }
 
         return true;
-
-        return true;
     }
 
     inline bool CollideCircleOBB(Body& circle, Body& box, Manifold& m) {
@@ -403,8 +399,6 @@ namespace Core::Engine {
             return true;
         }
 
-
-
         return false;
     }
 
@@ -421,6 +415,5 @@ namespace Core::Engine {
         A.Position -= correction * A.invMass;
         B.Position += correction * B.invMass;
     }
-
 
 }

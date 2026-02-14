@@ -22,7 +22,6 @@ namespace Core {
 		SetWindowMinSize(MIN_SCREEN_WIDTH, MIN_SCREEN_HEIGHT);
 		SetTargetFPS(TARGET_FPS);
 
-
 	}
 
 	Application::~Application() {

@@ -4,7 +4,7 @@
 #include <vector>
 #include "Math.h"
 
-constexpr float DEG_TO_RAD = 0.0174533; // pi / 180
+constexpr float DEG_TO_RAD = 0.0174533; //need for conversion to radians, as JSON files are more readable with angles in degrees, but the engine uses radians for calculations
 
 enum SceneType {
 
@@ -54,8 +54,7 @@ namespace Core::JSONParser {
 			std::cerr << "[ERROR] Failed to open scenes metadata" << std::endl;
 		}
 
-
-		ScenesData = nlohmann::json::parse(f)["scenes"];
+		ScenesData = nlohmann::json::parse(f, nullptr, true, true)["scenes"];
 	}
 
 	static ParsedJSONSceneData ParseSceneData(SceneType sceneTypeSerialized) {
