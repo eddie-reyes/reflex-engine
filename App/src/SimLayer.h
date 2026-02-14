@@ -26,8 +26,12 @@ private:
 
 	bool OnWindowResize(Core::WindowResizeEvent& event);
 
+	void TickScene();
+
 	std::vector<std::unique_ptr<Core::Button>> m_Buttons;
 
 	float m_SimBounds;
+
+	bool m_IsSceneTickable = true;
 
 };

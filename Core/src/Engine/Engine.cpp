@@ -19,17 +19,17 @@ namespace Core::Engine {
             switch (bodyData.type) {
 
             case ShapeType::Circle: 
-                m_Scene.push_back(std::make_unique<Circle>(bodyData.mass, bodyData.restitution, bodyData.friction, bodyData.isStatic, bodyData.initialPosition, bodyData.initialAngle, bodyData.radius, RED));
+                m_Scene.push_back(std::make_unique<Circle>(bodyData.mass, bodyData.restitution, bodyData.friction, bodyData.isStatic, bodyData.initialPosition, bodyData.initialAngle, bodyData.radius, DARKGRAY));
                 break;
             
             case ShapeType::OBB:
-                m_Scene.push_back(std::make_unique<Box>(bodyData.mass, bodyData.restitution, bodyData.friction, bodyData.isStatic, bodyData.initialPosition, bodyData.initialAngle, bodyData.dimensions, RED));
+                m_Scene.push_back(std::make_unique<Box>(bodyData.mass, bodyData.restitution, bodyData.friction, bodyData.isStatic, bodyData.initialPosition, bodyData.initialAngle, bodyData.dimensions, DARKGRAY));
                 break;
             default:
                 break;
             }
         }
-
+        
 		m_CurrentScene = sceneTypeSerialized;
        
     }
@@ -108,12 +108,15 @@ namespace Core::Engine {
 
     }
 
-    void Engine::ResetScene() {
+    void Engine::ResetScene(float bounds) {
 
         ClearScene();
 		BuildScene(m_CurrentScene);
+        MapSceneCoordsToWindow(200.0f, bounds);
 
     }
+
+
 
     void Engine::MapSceneCoordsToWindow(float in_end, float out_end) {
 
@@ -131,5 +134,19 @@ namespace Core::Engine {
         }
     }
 
-}
+    bool Engine::AddCircle(float mass, float radius, float restituion, float friction, bool isStatic, Vec2 initalPosition, float initialAngle, Color color) {
 
+        m_Scene.push_back(std::make_unique<Circle>(mass, restituion, friction, isStatic, initalPosition, initialAngle, radius, color));
+        
+
+        return true;
+    }
+
+    bool Engine::AddBox(float mass, Vec2 dimensions, float restituion, float friction, bool isStatic, Vec2 initialPosition, float initialAngle, Color color) {
+
+        m_Scene.push_back(std::make_unique<Box>(mass, restituion, friction, isStatic, initialPosition, initialAngle, dimensions, color));
+
+        return true;
+    }
+
+}

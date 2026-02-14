@@ -22,13 +22,19 @@ namespace Core::Engine {
 
 		void BuildScene(SceneType sceneTypeSerialized);
 
-		void TogglePause();
-
 		void ClearScene();
 
-		void ResetScene();
+		void ResetScene(float bounds);
+
+		SceneType GetCurrentScene() const { return m_CurrentScene;  } ;
 
 		void MapSceneCoordsToWindow(float in_end, float out_end);
+
+		void TogglePause();
+
+		bool AddCircle(float mass, float radius, float restituion, float friction, bool isStatic, Vec2 initalPosition, float initialAngle, Color color);
+
+		bool AddBox(float mass, Vec2 dimensions, float restituion, float friction, bool isStatic, Vec2 initalPosition, float initialAngle, Color color);
 
 	private:
 

@@ -615,8 +615,231 @@ SCENES: array of scene objects
           "restitution": 1,
           "friction": 1,
           "isStatic": true
-        }
+        },
 
+        {
+          "type": "circle",
+          "mass": 0.0,
+          "initialPosition": {
+            "x": 140.0,
+            "y": 45.0
+          },
+          "radius": 1.5,
+          "initialAngle": 0.0,
+          "restitution": 1,
+          "friction": 1,
+          "isStatic": true
+        },
+        {
+          "type": "circle",
+          "mass": 0.0,
+          "initialPosition": {
+            "x": 140.0,
+            "y": 45.0
+          },
+          "radius": 1.5,
+          "initialAngle": 0.0,
+          "restitution": 1,
+          "friction": 1,
+          "isStatic": true
+        },
+        {
+          "type": "circle",
+          "mass": 0.0,
+          "initialPosition": {
+            "x": 140.0,
+            "y": 45.0
+          },
+          "radius": 1.5,
+          "initialAngle": 0.0,
+          "restitution": 1,
+          "friction": 1,
+          "isStatic": true
+        },
+        {
+          "type": "circle",
+          "mass": 0.0,
+          "initialPosition": {
+            "x": 140.0,
+            "y": 45.0
+          },
+          "radius": 1.5,
+          "initialAngle": 0.0,
+          "restitution": 1,
+          "friction": 1,
+          "isStatic": true
+        },
+        {
+          "type": "circle",
+          "mass": 0.0,
+          "initialPosition": {
+            "x": 140.0,
+            "y": 45.0
+          },
+          "radius": 1.5,
+          "initialAngle": 0.0,
+          "restitution": 1,
+          "friction": 1,
+          "isStatic": true
+        },
+        {
+          "type": "circle",
+          "mass": 0.0,
+          "initialPosition": {
+            "x": 140.0,
+            "y": 45.0
+          },
+          "radius": 1.5,
+          "initialAngle": 0.0,
+          "restitution": 1,
+          "friction": 1,
+          "isStatic": true
+        },
+        {
+          "type": "circle",
+          "mass": 0.0,
+          "initialPosition": {
+            "x": 140.0,
+            "y": 45.0
+          },
+          "radius": 1.5,
+          "initialAngle": 0.0,
+          "restitution": 1,
+          "friction": 1,
+          "isStatic": true
+        },
+
+
+        {
+          "type": "circle",
+          "mass": 0.0,
+          "initialPosition": {
+            "x": 55.0,
+            "y": 50.0
+          },
+          "radius": 1.5,
+          "initialAngle": 0.0,
+          "restitution": 1,
+          "friction": 1,
+          "isStatic": true
+        },
+        {
+          "type": "circle",
+          "mass": 0.0,
+          "initialPosition": {
+            "x": 65.0,
+            "y": 50.0
+          },
+          "radius": 1.5,
+          "initialAngle": 0.0,
+          "restitution": 1,
+          "friction": 1,
+          "isStatic": true
+        },
+        {
+          "type": "circle",
+          "mass": 0.0,
+          "initialPosition": {
+            "x": 75.0,
+            "y": 50.0
+          },
+          "radius": 1.5,
+          "initialAngle": 0.0,
+          "restitution": 1,
+          "friction": 1,
+          "isStatic": true
+        },
+        {
+          "type": "circle",
+          "mass": 0.0,
+          "initialPosition": {
+            "x": 85.0,
+            "y": 50.0
+          },
+          "radius": 1.5,
+          "initialAngle": 0.0,
+          "restitution": 1,
+          "friction": 1,
+          "isStatic": true
+        },
+        {
+          "type": "circle",
+          "mass": 0.0,
+          "initialPosition": {
+            "x": 95.0,
+            "y": 50.0
+          },
+          "radius": 1.5,
+          "initialAngle": 0.0,
+          "restitution": 1,
+          "friction": 1,
+          "isStatic": true
+        },
+        {
+          "type": "circle",
+          "mass": 0.0,
+          "initialPosition": {
+            "x": 105.0,
+            "y": 50.0
+          },
+          "radius": 1.5,
+          "initialAngle": 0.0,
+          "restitution": 1,
+          "friction": 1,
+          "isStatic": true
+        },
+        {
+          "type": "circle",
+          "mass": 0.0,
+          "initialPosition": {
+            "x": 115.0,
+            "y": 50.0
+          },
+          "radius": 1.5,
+          "initialAngle": 0.0,
+          "restitution": 1,
+          "friction": 1,
+          "isStatic": true
+        },
+        {
+          "type": "circle",
+          "mass": 0.0,
+          "initialPosition": {
+            "x": 125.0,
+            "y": 50.0
+          },
+          "radius": 1.5,
+          "initialAngle": 0.0,
+          "restitution": 1,
+          "friction": 1,
+          "isStatic": true
+        },
+        {
+          "type": "circle",
+          "mass": 0.0,
+          "initialPosition": {
+            "x": 135.0,
+            "y": 50.0
+          },
+          "radius": 1.5,
+          "initialAngle": 0.0,
+          "restitution": 1,
+          "friction": 1,
+          "isStatic": true
+        },
+        {
+          "type": "circle",
+          "mass": 0.0,
+          "initialPosition": {
+            "x": 145.0,
+            "y": 50.0
+          },
+          "radius": 1.5,
+          "initialAngle": 0.0,
+          "restitution": 1,
+          "friction": 1,
+          "isStatic": true
+        }
 
       ]
     }

@@ -41,9 +41,12 @@ namespace Core::Engine
             j *= invCount;
 
             Vec2 impulse = m.Normal * j;
+
+            //Vf = Vi + J/m
             A.Velocity -= impulse * A.invMass;
             B.Velocity += impulse * B.invMass;
 
+            //L = Iw -> w = L/I
             A.AngularVelociy -= Cross(ra, impulse) * A.invInertia;
             B.AngularVelociy += Cross(rb, impulse) * B.invInertia;
 

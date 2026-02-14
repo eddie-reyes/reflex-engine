@@ -8,7 +8,7 @@ SimLayer::SimLayer()
 	
 	m_Buttons.push_back(std::make_unique<Core::Button>([]() { Core::Application::Get().Engine.TogglePause(); }));
 
-	m_Buttons.push_back(std::make_unique<Core::Button>([]() { Core::Application::Get().Engine.ResetScene(); }));
+	m_Buttons.push_back(std::make_unique<Core::Button>([this]() { Core::Application::Get().Engine.ResetScene(m_SimBounds); }));
 
 	m_Buttons.push_back(std::make_unique<Core::Button>([this]() { 
 		Core::Application::Get().Engine.ClearScene();
@@ -16,6 +16,7 @@ SimLayer::SimLayer()
 	}));
 
 	m_SimBounds = (float)GetScreenWidth();
+	m_IsSceneTickable = true;
 
 	SetRelativePositionOfUI((float)GetScreenWidth(), (float)GetScreenHeight());
 	Core::Application::Get().Engine.MapSceneCoordsToWindow(200.0f, m_SimBounds);
@@ -32,8 +33,9 @@ void SimLayer::OnEvent(Core::Event& event)
 void SimLayer::OnRender()
 {
 	const auto& bodies = Core::Application::Get().Engine.GetSceneBodies();
+	TickScene();
 
-    for (auto& b : bodies) {
+    for (const auto& b : bodies) {
         if (b->Shape.Type == Core::Engine::ShapeType::Circle) {
 
 			DrawCircleV({ b->Position.x, b->Position.y }, b->Shape.Radius, b->FillColor);
@@ -64,8 +66,8 @@ void SimLayer::SetRelativePositionOfUI(int screenWidth, int screenHeight)
 {
 
 	for (int i = 0; i < m_Buttons.size(); i++) {
-		m_Buttons[i]->SetPosition((screenWidth / 4) * (i + 1), 0.75 * screenHeight);
-	}
+		m_Buttons[i]->SetPosition((screenWidth / 4) * (i + 1), screenHeight - (screenHeight / 6));
+	}	
     
 }
 
@@ -92,4 +94,23 @@ bool SimLayer::OnWindowResize(Core::WindowResizeEvent& event)
 	SetRelativePositionOfUI((float)event.GetWidth(), (float)event.GetHeight());
 
 	return true;
+}
+
+
+void SimLayer::TickScene() {
+
+	if (!m_IsSceneTickable) return;
+
+	SceneType currentScene = Core::Application::Get().Engine.GetCurrentScene();
+
+	switch (currentScene) {
+
+	case SceneType::BINOMIAL_SCENE:
+
+		m_IsSceneTickable = false;
+		
+		Core::Application::Get().Engine.AddCircle(1, 1, 1, 1, false, { 100, 0 }, 0, RED);
+
+	}
+
 }
