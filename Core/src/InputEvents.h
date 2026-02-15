@@ -63,12 +63,12 @@ namespace Core {
 	class MouseMovedEvent : public Event
 	{
 	public:
-		MouseMovedEvent(double x, double y)
+		MouseMovedEvent(float x, float y)
 			: m_MouseX(x), m_MouseY(y) {
 		}
 
-		inline double GetX() const { return m_MouseX; }
-		inline double GetY() const { return m_MouseY; }
+		inline float GetX() const { return m_MouseX; }
+		inline float GetY() const { return m_MouseY; }
 
 		std::string ToString() const override
 		{
@@ -77,7 +77,7 @@ namespace Core {
 
 		EVENT_CLASS_TYPE(MouseMoved)
 	private:
-		double m_MouseX, m_MouseY;
+		float m_MouseX, m_MouseY;
 	};
 
 	class MouseScrolledEvent : public Event

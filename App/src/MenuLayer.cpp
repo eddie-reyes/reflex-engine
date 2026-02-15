@@ -13,7 +13,7 @@ MenuLayer::MenuLayer()
 	m_Buttons.push_back(std::make_unique<Core::Button>("View", [this]() { Core::Application::Get().Engine.BuildScene(SceneType::BINOMIAL_SCENE);  }));
 
 	SetRelativePositionOfUI(GetScreenWidth(), GetScreenHeight());
-
+	 
 }
 
 void MenuLayer::OnEvent(Core::Event& event)
@@ -21,6 +21,7 @@ void MenuLayer::OnEvent(Core::Event& event)
 
 	Core::EventDispatcher dispatcher(event);
 	dispatcher.Dispatch<Core::MouseButtonPressedEvent>([this](Core::MouseButtonPressedEvent& e) { return OnMouseButtonPressed(e); });
+	dispatcher.Dispatch<Core::MouseMovedEvent>([this](Core::MouseMovedEvent& e) { return OnMouseMoved(e); });
 	dispatcher.Dispatch<Core::MouseScrolledEvent>([this](Core::MouseScrolledEvent& e) { return OnMouseScrolled(e); });
 	dispatcher.Dispatch<Core::WindowResizeEvent>([this](Core::WindowResizeEvent& e) { return OnWindowResize(e); });
 	 
@@ -61,6 +62,17 @@ bool MenuLayer::OnMouseButtonPressed(Core::MouseButtonPressedEvent& event)
 	}
 
 	return false;
+}
+
+bool MenuLayer::OnMouseMoved(Core::MouseMovedEvent& e)
+{
+	Vector2 mousePos = { e.GetX(), e.GetY() };
+
+	for (const auto& button : m_Buttons) {
+		button->setState(mousePos);
+	}
+
+	return true;
 }
 
 bool MenuLayer::OnMouseScrolled(Core::MouseScrolledEvent& event)

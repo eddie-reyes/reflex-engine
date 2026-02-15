@@ -24,6 +24,8 @@ private:
 
 	bool OnMouseButtonPressed(Core::MouseButtonPressedEvent& event);
 
+	bool OnMouseMoved(Core::MouseMovedEvent& e);
+
 	bool OnWindowResize(Core::WindowResizeEvent& event);
 
 	void TickScene();

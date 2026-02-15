@@ -3,6 +3,21 @@
 #include "raylib.h"
 #include <functional>
 #include <string>
+#include "AssetManager.h"
+
+enum class ButtonState {
+
+	DEFAULT,
+	HOVERED
+};
+
+enum class ButtonType {
+
+	DEFAULT,
+	TOGGLEABLE
+
+};
+
 
 auto constexpr FONT_SIZE = 36;
 
@@ -16,16 +31,22 @@ namespace Core {
 
 
 	public:
-		Button(const char * text, onClickedFn callbackFn);
+		Button(const char * text, onClickedFn callbackFn, ButtonType type = ButtonType::DEFAULT);
 		~Button();
 
 		bool isHovered(Vector2& mousePos) const;
+
+		void setState(Vector2& mousePos);
+
+		void ToggleText();
 
 		Texture2D& GetTexture() { return m_Texture; }
 
 		Rectangle& GetSourceRect() { return m_SourceRect; }
 		
 		Vector2& GetPosition() { return m_Position; }
+
+		ButtonType GetType() const { return m_Type; };
 
 		const char * GetText() { return m_Text; };
 
@@ -38,6 +59,7 @@ namespace Core {
 
 		onClickedFn OnClicked;
 
+
 	private:
 
 		Texture2D m_Texture;
@@ -46,7 +68,13 @@ namespace Core {
 
 		Vector2 m_Position;
 
+		ButtonState m_State;
+
+		ButtonType m_Type;
+
 		const char * m_Text;
+
+		bool m_isToggled;
 
 	};
 

@@ -7,11 +7,12 @@ enum class AssetType {
 
 	None = 0,
 	BUTTON_TEXTURE,
-	BUTTON_TEXTURE_HOVER
+	BUTTON_TEXTURE_HOVERED
 
 };
 
 namespace Core::AssetManager {
+
 
 	inline Texture2D LoadAssetTexture(AssetType type) {
 
@@ -23,7 +24,7 @@ namespace Core::AssetManager {
 			path = "assets/button.png";
 			break;
 
-		case AssetType::BUTTON_TEXTURE_HOVER:
+		case AssetType::BUTTON_TEXTURE_HOVERED:
 
 			path = "assets/button_h.png";
 			break;
@@ -34,7 +35,7 @@ namespace Core::AssetManager {
 
 		if (!std::filesystem::exists(path)) {
 
-			std::cerr << "[ERROR]: Failed to load texture: " << path << std::endl;
+			std::cerr << "[ERROR] Failed to load texture: " << path << std::endl;
 			return {};
 
 		}

@@ -23,6 +23,8 @@ private:
 
 	bool OnMouseButtonPressed(Core::MouseButtonPressedEvent& event);
 
+	bool OnMouseMoved(Core::MouseMovedEvent& e);
+
 	bool OnMouseScrolled(Core::MouseScrolledEvent& event);
 
 	bool OnWindowResize(Core::WindowResizeEvent& event);

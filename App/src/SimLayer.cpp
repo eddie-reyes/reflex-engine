@@ -7,7 +7,9 @@ SimLayer::SimLayer()
 {
 	
 	//pause button
-	m_Buttons.push_back(std::make_unique<Core::Button>("Pause", []() { Core::Application::Get().Engine.TogglePause(); }));
+	m_Buttons.push_back(std::make_unique<Core::Button>("Pause", []() {
+		Core::Application::Get().Engine.TogglePause();
+	}, ButtonType::TOGGLEABLE));
 
 	//reset button
 	m_Buttons.push_back(std::make_unique<Core::Button>("Reset", [this]() {
@@ -32,9 +34,11 @@ void SimLayer::OnEvent(Core::Event& event)
 
 	Core::EventDispatcher dispatcher(event);
 	dispatcher.Dispatch<Core::MouseButtonPressedEvent>([this](Core::MouseButtonPressedEvent& e) { return OnMouseButtonPressed(e); });
+	dispatcher.Dispatch<Core::MouseMovedEvent>([this](Core::MouseMovedEvent& e) { return OnMouseMoved(e); });
 	dispatcher.Dispatch<Core::WindowResizeEvent>([this](Core::WindowResizeEvent& e) { return OnWindowResize(e); });
 
 }
+
 void SimLayer::OnRender()
 {
 	const auto& bodies = Core::Application::Get().Engine.GetSceneBodies();
@@ -80,15 +84,27 @@ void SimLayer::SetRelativePositionOfUI(int screenWidth, int screenHeight)
 bool SimLayer::OnMouseButtonPressed(Core::MouseButtonPressedEvent& event)
 {
 	Vector2 mousePos = GetMousePosition();
-
+	
 	for (const auto& button : m_Buttons) {
 		if (button->isHovered(mousePos)) {
+			if (button->GetType() == ButtonType::TOGGLEABLE) button->ToggleText();
 			button->OnClicked();
 			return true;
 		}
 	}
 
 	return false;
+}
+
+bool SimLayer::OnMouseMoved(Core::MouseMovedEvent& e)
+{
+	Vector2 mousePos = {e.GetX(), e.GetY()};
+
+	for (const auto& button : m_Buttons) {
+		button->setState(mousePos);
+	}
+
+	return true;
 }
 
 

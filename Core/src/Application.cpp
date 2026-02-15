@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "InputEvents.h"
 #include <ranges>
+#include <iostream>
 
 #define MIN_SCREEN_WIDTH 1280
 #define MIN_SCREEN_HEIGHT 720
@@ -108,6 +109,13 @@ namespace Core {
 
 			WindowResizeEvent event(GetScreenWidth(), GetScreenHeight());
 			RaiseEvent(event);
+		}
+
+		if (GetMouseDelta().x != 0) {
+
+			MouseMovedEvent event(GetMousePosition().x, GetMousePosition().y);
+			RaiseEvent(event);
+
 		}
 
 	
