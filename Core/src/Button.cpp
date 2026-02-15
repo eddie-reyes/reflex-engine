@@ -1,12 +1,14 @@
 #include "Button.h"
 #include "AssetManager.h"
 
-Core::Button::Button(onClickedFn callbackFn)
+Core::Button::Button(const char * text, onClickedFn callbackFn)
 {
 	m_Texture = AssetManager::LoadAssetTexture(AssetType::BUTTON_TEXTURE);
-	m_SourceRect = { 0.0f, 0.0f, (float)m_Texture.width, (float)m_Texture.height };
+	m_SourceRect = { 0.0f, 0.0f, (float)m_Texture.width, (float)m_Texture.height }; 
 	m_Position = { m_SourceRect.x, m_SourceRect.y };
+	m_Text = text;
 	OnClicked = callbackFn;
+
 }
 
 Core::Button::~Button()

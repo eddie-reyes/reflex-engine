@@ -51,7 +51,7 @@ namespace Core::Engine {
 
 		float m_Bounds;
 
-		Vec2 m_Gravity = {0.0f, 9.81f}; 
+		Vec2 m_Gravity;
 
 	};
 

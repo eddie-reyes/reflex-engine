@@ -2,6 +2,9 @@
 
 #include "raylib.h"
 #include <functional>
+#include <string>
+
+auto constexpr FONT_SIZE = 36;
 
 namespace Core {
 
@@ -13,7 +16,7 @@ namespace Core {
 
 
 	public:
-		Button(onClickedFn callbackFn);
+		Button(const char * text, onClickedFn callbackFn);
 		~Button();
 
 		bool isHovered(Vector2& mousePos) const;
@@ -23,6 +26,8 @@ namespace Core {
 		Rectangle& GetSourceRect() { return m_SourceRect; }
 		
 		Vector2& GetPosition() { return m_Position; }
+
+		const char * GetText() { return m_Text; };
 
 		void SetPosition(float x, float y) { 
 			
@@ -41,6 +46,7 @@ namespace Core {
 
 		Vector2 m_Position;
 
+		const char * m_Text;
 
 	};
 

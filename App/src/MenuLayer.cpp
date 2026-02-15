@@ -7,7 +7,10 @@
 MenuLayer::MenuLayer()
 {
 
-	m_Buttons.push_back(std::make_unique<Core::Button>([this]() { Core::Application::Get().Engine.BuildScene(SceneType::BINOMIAL_SCENE);  }));
+	m_Buttons.push_back(std::make_unique<Core::Button>("View", [this]() { Core::Application::Get().Engine.BuildScene(SceneType::BINOMIAL_SCENE);  }));
+	m_Buttons.push_back(std::make_unique<Core::Button>("View", [this]() { Core::Application::Get().Engine.BuildScene(SceneType::BINOMIAL_SCENE);  }));
+	m_Buttons.push_back(std::make_unique<Core::Button>("View", [this]() { Core::Application::Get().Engine.BuildScene(SceneType::BINOMIAL_SCENE);  }));
+	m_Buttons.push_back(std::make_unique<Core::Button>("View", [this]() { Core::Application::Get().Engine.BuildScene(SceneType::BINOMIAL_SCENE);  }));
 
 	SetRelativePositionOfUI(GetScreenWidth(), GetScreenHeight());
 
@@ -29,7 +32,7 @@ void MenuLayer::OnRender()
 	for (const auto& button : m_Buttons) {
 
 		DrawTextureRec(button->GetTexture(), button->GetSourceRect(), button->GetPosition(), WHITE);
-
+		DrawText(button->GetText(), button->GetPosition().x + (button->GetTexture().width / 2 - MeasureText(button->GetText(), FONT_SIZE) / 2), button->GetPosition().y + button->GetTexture().height / 4, FONT_SIZE, WHITE);
 	}
 
 }

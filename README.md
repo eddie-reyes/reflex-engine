@@ -13,14 +13,14 @@ The engine simulates gravity, collision detection, and impulse-based collision r
   - Gravity and mass-based behavior
 
 - **Collision Detection**
-  - Inherited from raylib
-  - Box/Sphere collision
+  - OBB/AABB/Sphere collision
+  - SAT based overlap detection
   - .svg custom colliders (WIP)
 
 - **Collision Resolution**
-  - Impulse-based collision response
-  - Friction (static & dynamic)
-  - Restitution (bounciness)
+  - Impulse-based collision responses
+  - Incorperates Friction (static & dynamic)
+  - Incorperates Restitution (bounciness)
 
 - **Rendering with raylib**
   - Real-time visualization
@@ -29,6 +29,10 @@ The engine simulates gravity, collision detection, and impulse-based collision r
 - **Demos & Sandbox**
   - Practical demonstrations showcasing engine features
   - Sandbox mode for freeform experimentation and testing
+
+- **Architecture**
+  - Application state controlled using layers system
+  - Event propagation through layer stack
 
 ---
 

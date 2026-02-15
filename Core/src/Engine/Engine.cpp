@@ -14,6 +14,8 @@ namespace Core::Engine {
 
 		ParsedJSONSceneData sceneData = JSONParser::ParseSceneData(sceneTypeSerialized);
 
+        m_Gravity = sceneData.gravity;
+
         for (const auto& bodyData : sceneData.bodies) {
         
             switch (bodyData.type) {
@@ -116,8 +118,6 @@ namespace Core::Engine {
 
     }
 
-
-
     void Engine::MapSceneCoordsToWindow(float in_end, float out_end) {
 
         for (auto& b : m_Scene) {
@@ -126,11 +126,11 @@ namespace Core::Engine {
             float projectedY =  (out_end * b->Position.y) / (in_end);
 
             if (b->Shape.Type == ShapeType::Circle) {
-				b->Shape.Radius *= (out_end / in_end); //scale radius by same factor as x axis
+				b->Shape.Radius *= (out_end / in_end); //scale radius by bounds
 			}
 
             if (b->Shape.Type == ShapeType::OBB) {
-                b->Shape.Half *= (out_end / in_end); //scale radius by same factor as x axis
+                b->Shape.Half *= (out_end / in_end); //scale dimensions by bounds
             }
 
 			b->Position = { projectedX, projectedY };

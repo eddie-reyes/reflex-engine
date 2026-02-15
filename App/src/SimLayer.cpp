@@ -7,24 +7,24 @@ SimLayer::SimLayer()
 {
 	
 	//pause button
-	m_Buttons.push_back(std::make_unique<Core::Button>([]() { Core::Application::Get().Engine.TogglePause(); }));
+	m_Buttons.push_back(std::make_unique<Core::Button>("Pause", []() { Core::Application::Get().Engine.TogglePause(); }));
 
 	//reset button
-	m_Buttons.push_back(std::make_unique<Core::Button>([this]() {
+	m_Buttons.push_back(std::make_unique<Core::Button>("Reset", [this]() {
 		Core::Application::Get().Engine.ResetScene(); 
 		m_IsSceneTickable = true;		
 	}));
 
 	//back to menu button
-	m_Buttons.push_back(std::make_unique<Core::Button>([this]() { 
+	m_Buttons.push_back(std::make_unique<Core::Button>("To Menu", [this]() {
 		Core::Application::Get().Engine.ClearScene();
 		TransitionTo<MenuLayer>();
-	}));
+	})); 
 
 	m_IsSceneTickable = true;
 
 	SetRelativePositionOfUI((float)GetScreenWidth(), (float)GetScreenHeight());
-	Core::Application::Get().Engine.MapSceneCoordsToWindow(200.0f, (float)GetScreenWidth());
+	Core::Application::Get().Engine.MapSceneCoordsToWindow(SCENE_BOUNDS, (float)GetScreenWidth());
 }
 
 void SimLayer::OnEvent(Core::Event& event)
@@ -62,6 +62,7 @@ void SimLayer::OnRender()
 	for (const auto& button : m_Buttons) {
 
 		DrawTextureRec(button->GetTexture(), button->GetSourceRect(), button->GetPosition(), WHITE);
+		DrawText(button->GetText(), button->GetPosition().x + (button->GetTexture().width / 2 - MeasureText(button->GetText(), FONT_SIZE) / 2) , button->GetPosition().y + button->GetTexture().height / 4, FONT_SIZE, WHITE);
 
 	}
 
@@ -71,7 +72,7 @@ void SimLayer::SetRelativePositionOfUI(int screenWidth, int screenHeight)
 {
 
 	for (int i = 0; i < m_Buttons.size(); i++) {
-		m_Buttons[i]->SetPosition((screenWidth / 4) * (i + 1), screenHeight - (screenHeight / 6));
+		m_Buttons[i]->SetPosition((screenWidth / 4) * (i + 1), screenHeight - (screenHeight / 8));
 	}	
     
 }
