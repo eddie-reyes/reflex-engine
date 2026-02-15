@@ -2,6 +2,7 @@
 #include <nlohmann/json.hpp>
 #include <iostream>	
 #include <vector>
+#include <string>
 #include "Math.h"
 
 constexpr float DEG_TO_RAD = 0.0174533; //need for conversion to radians, as JSON files are more readable with angles in degrees, but the engine uses radians for calculations
@@ -33,6 +34,7 @@ struct ParsedJSONBodyData {
 
 	float restitution;
 	bool isStatic;
+	Color fillColor;
 
 };
 
@@ -45,19 +47,28 @@ struct ParsedJSONSceneData {
 
 namespace Core::JSONParser {
 
-	static nlohmann::json ScenesData;
+	inline nlohmann::json ScenesData;
 
-	static void BuildScenesFromJSON() {
+	inline void BuildScenesFromJSON() {
 		std::ifstream f("assets/scenes.json");
 
 		if (!f.is_open()) {
 			std::cerr << "[ERROR] Failed to open scenes metadata" << std::endl;
 		}
 
-		ScenesData = nlohmann::json::parse(f, nullptr, true, true)["scenes"];
+		try {
+
+			ScenesData = nlohmann::json::parse(f, nullptr, true, true)["scenes"];
+		}
+
+		catch(nlohmann::json::parse_error& e) {
+
+			std::cerr << "[ERROR] JSONParser: " << e.what() << std::endl;
+
+		}
 	}
 
-	static ParsedJSONSceneData ParseSceneData(SceneType sceneTypeSerialized) {
+	inline ParsedJSONSceneData ParseSceneData(SceneType sceneTypeSerialized) {
 
 		nlohmann::json& scene = ScenesData[sceneTypeSerialized];
 
@@ -69,12 +80,13 @@ namespace Core::JSONParser {
 
 			ParsedJSONBodyData bodyData{};
 
-			bodyData.mass = body["mass"];
+			bodyData.mass = (body["mass"]).is_null() ? 0.0f : (float)body["mass"];
 			bodyData.restitution = body["restitution"];
 			bodyData.friction = body["friction"];
 			bodyData.isStatic = body["isStatic"];
 			bodyData.initialPosition = { body["initialPosition"]["x"], body["initialPosition"]["y"] };
 			bodyData.initialAngle = body["initialAngle"] * DEG_TO_RAD;
+			bodyData.fillColor = (body["color"]).is_null() ? DARKGRAY : Color{ body["color"]["r"], body["color"]["g"], body["color"]["b"], 255};
 
 			if (body["type"] == "circle") {
 				bodyData.type = Core::Engine::ShapeType::Circle;
@@ -93,6 +105,7 @@ namespace Core::JSONParser {
 		return sceneData;
 
 	}
+
 
 
 }

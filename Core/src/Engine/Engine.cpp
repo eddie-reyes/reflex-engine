@@ -19,11 +19,11 @@ namespace Core::Engine {
             switch (bodyData.type) {
 
             case ShapeType::Circle: 
-                m_Scene.push_back(std::make_unique<Circle>(bodyData.mass, bodyData.restitution, bodyData.friction, bodyData.isStatic, bodyData.initialPosition, bodyData.initialAngle, bodyData.radius, DARKGRAY));
+                m_Scene.push_back(std::make_unique<Circle>(bodyData.mass, bodyData.restitution, bodyData.friction, bodyData.isStatic, bodyData.initialPosition, bodyData.initialAngle, bodyData.radius, bodyData.fillColor));
                 break;
             
             case ShapeType::OBB:
-                m_Scene.push_back(std::make_unique<Box>(bodyData.mass, bodyData.restitution, bodyData.friction, bodyData.isStatic, bodyData.initialPosition, bodyData.initialAngle, bodyData.dimensions, DARKGRAY));
+                m_Scene.push_back(std::make_unique<Box>(bodyData.mass, bodyData.restitution, bodyData.friction, bodyData.isStatic, bodyData.initialPosition, bodyData.initialAngle, bodyData.dimensions, bodyData.fillColor));
                 break;
             default:
                 break;
@@ -104,15 +104,15 @@ namespace Core::Engine {
     {
 
 		m_Scene.clear();
-		m_isPaused = true;
+		m_isPaused = false;
 
     }
 
-    void Engine::ResetScene(float bounds) {
+    void Engine::ResetScene() {
 
         ClearScene();
 		BuildScene(m_CurrentScene);
-        MapSceneCoordsToWindow(200.0f, bounds);
+        MapSceneCoordsToWindow(200.0f, m_Bounds);
 
     }
 
@@ -129,22 +129,33 @@ namespace Core::Engine {
 				b->Shape.Radius *= (out_end / in_end); //scale radius by same factor as x axis
 			}
 
+            if (b->Shape.Type == ShapeType::OBB) {
+                b->Shape.Half *= (out_end / in_end); //scale radius by same factor as x axis
+            }
+
 			b->Position = { projectedX, projectedY };
+
+            m_Bounds = out_end;
             
         }
     }
 
-    bool Engine::AddCircle(float mass, float radius, float restituion, float friction, bool isStatic, Vec2 initalPosition, float initialAngle, Color color) {
+    Vec2 Engine::ProjectPositionToWindow(Vec2 pos) {
 
-        m_Scene.push_back(std::make_unique<Circle>(mass, restituion, friction, isStatic, initalPosition, initialAngle, radius, color));
+        return (pos * m_Bounds) / SCENE_BOUNDS;
+
+    }
+
+    bool Engine::AddCircle(float mass, float radius, float restituion, float friction, bool isStatic, Vec2 initialPosition, float initialAngle, Color color) {
+
+        m_Scene.push_back(std::make_unique<Circle>(mass, restituion, friction, isStatic, ProjectPositionToWindow(initialPosition), initialAngle, radius, color));
         
-
         return true;
     }
 
     bool Engine::AddBox(float mass, Vec2 dimensions, float restituion, float friction, bool isStatic, Vec2 initialPosition, float initialAngle, Color color) {
 
-        m_Scene.push_back(std::make_unique<Box>(mass, restituion, friction, isStatic, initialPosition, initialAngle, dimensions, color));
+        m_Scene.push_back(std::make_unique<Box>(mass, restituion, friction, isStatic, ProjectPositionToWindow(initialPosition), initialAngle, dimensions, color));
 
         return true;
     }

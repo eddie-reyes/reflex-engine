@@ -4,10 +4,11 @@
 #include "Body.h"
 #include "JSONParser.h"
 
-constexpr auto SIM_SPEED = 5.0f; //speed factor
+constexpr auto SIM_SPEED = 10.0f; //speed factor
 constexpr auto IMPULSE_SOLVER_ITER = 10; //impulse solver
 constexpr auto SUBSTEPS = 5; //substeps per tick of simulation
 constexpr auto ANGULAR_DAMPING = 0.98f; //prevents bodies from spinning indefinitely
+constexpr auto SCENE_BOUNDS = 200.0; //max x,y coord
 
 namespace Core::Engine {
 
@@ -24,11 +25,15 @@ namespace Core::Engine {
 
 		void ClearScene();
 
-		void ResetScene(float bounds);
+		void ResetScene();
 
 		SceneType GetCurrentScene() const { return m_CurrentScene;  } ;
 
+		float GetBounds() const { return m_Bounds; };
+
 		void MapSceneCoordsToWindow(float in_end, float out_end);
+
+		Vec2 ProjectPositionToWindow(Vec2 pos);
 
 		void TogglePause();
 
@@ -43,6 +48,8 @@ namespace Core::Engine {
 		bool m_isPaused;
 
 		SceneType m_CurrentScene;
+
+		float m_Bounds;
 
 		Vec2 m_Gravity = {0.0f, 9.81f}; 
 

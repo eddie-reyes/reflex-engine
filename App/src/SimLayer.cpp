@@ -6,20 +6,25 @@
 SimLayer::SimLayer()
 {
 	
+	//pause button
 	m_Buttons.push_back(std::make_unique<Core::Button>([]() { Core::Application::Get().Engine.TogglePause(); }));
 
-	m_Buttons.push_back(std::make_unique<Core::Button>([this]() { Core::Application::Get().Engine.ResetScene(m_SimBounds); }));
+	//reset button
+	m_Buttons.push_back(std::make_unique<Core::Button>([this]() {
+		Core::Application::Get().Engine.ResetScene(); 
+		m_IsSceneTickable = true;		
+	}));
 
+	//back to menu button
 	m_Buttons.push_back(std::make_unique<Core::Button>([this]() { 
 		Core::Application::Get().Engine.ClearScene();
 		TransitionTo<MenuLayer>();
 	}));
 
-	m_SimBounds = (float)GetScreenWidth();
 	m_IsSceneTickable = true;
 
 	SetRelativePositionOfUI((float)GetScreenWidth(), (float)GetScreenHeight());
-	Core::Application::Get().Engine.MapSceneCoordsToWindow(200.0f, m_SimBounds);
+	Core::Application::Get().Engine.MapSceneCoordsToWindow(200.0f, (float)GetScreenWidth());
 }
 
 void SimLayer::OnEvent(Core::Event& event)
@@ -89,8 +94,7 @@ bool SimLayer::OnMouseButtonPressed(Core::MouseButtonPressedEvent& event)
 bool SimLayer::OnWindowResize(Core::WindowResizeEvent& event)
 {
 
-	Core::Application::Get().Engine.MapSceneCoordsToWindow(m_SimBounds, (float)event.GetWidth());
-	m_SimBounds = (float)event.GetWidth();
+	Core::Application::Get().Engine.MapSceneCoordsToWindow(Core::Application::Get().Engine.GetBounds(), (float)event.GetWidth());
 	SetRelativePositionOfUI((float)event.GetWidth(), (float)event.GetHeight());
 
 	return true;
@@ -108,8 +112,12 @@ void SimLayer::TickScene() {
 	case SceneType::BINOMIAL_SCENE:
 
 		m_IsSceneTickable = false;
+		for (int i = 0; i < 6; i ++) {
+
+			Core::Application::Get().Engine.AddCircle(1, 10, 0.5, 1, false, { (float)GetRandomValue(95, 105), 0.0f}, 0.0f, RED);
+
+		}
 		
-		Core::Application::Get().Engine.AddCircle(1, 1, 1, 1, false, { 100, 0 }, 0, RED);
 
 	}
 
