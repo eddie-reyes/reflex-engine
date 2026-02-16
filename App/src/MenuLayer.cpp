@@ -7,7 +7,10 @@
 MenuLayer::MenuLayer()
 {
 
-	m_Cards.push_back(std::make_unique<Core::Card>(std::make_unique<Core::Button>("View", []() { Core::Application::Get().Engine.BuildScene(SceneType::BINOMIAL_SCENE);  }), Core::AssetManager::LoadAssetTexture(AssetType::BINOMIAL_SCENE_IMG), "Binomial Plinko"));
+	std::unique_ptr<Core::Button> btn1 = std::make_unique<Core::Button>("View", []() { Core::Application::Get().Engine.BuildScene(SceneType::BINOMIAL_SCENE);  });
+
+
+	m_Cards.push_back(std::make_unique<Core::Card>(std::move(btn1), Core::AssetManager::LoadAssetTexture(AssetType::BINOMIAL_SCENE_IMG), "Binomial Plinko"));
 	/*m_Cards.push_back(std::make_unique<Core::Card>(Core::Button("View", []() { Core::Application::Get().Engine.BuildScene(SceneType::BINOMIAL_SCENE);  }), Core::AssetManager::LoadAssetTexture(AssetType::BINOMIAL_SCENE_IMG), "Binomial Plinko"));*/
 	//m_Cards.push_back(std::make_unique<Core::Button>("View", [this]() { Core::Application::Get().Engine.BuildScene(SceneType::BINOMIAL_SCENE);  }));
 	//m_Cards.push_back(std::make_unique<Core::Button>("View", [this]() { Core::Application::Get().Engine.BuildScene(SceneType::BINOMIAL_SCENE);  }));

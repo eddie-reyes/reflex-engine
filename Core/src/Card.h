@@ -6,7 +6,7 @@ namespace Core {
 	class Card {
 
 	public:
-		Card(std::unique_ptr<Button> button, Texture2D scenePreview, const char* previewText) : m_Button(button), m_ScenePreview(scenePreview), m_PreviewText(previewText) {};
+		Card(std::unique_ptr<Button> button, Texture2D scenePreview, const char* previewText) : m_Button(std::move(button)), m_ScenePreview(scenePreview), m_PreviewText(previewText) {};
 		~Card() {
 			UnloadTexture(m_ScenePreview);
 		
