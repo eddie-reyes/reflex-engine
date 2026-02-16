@@ -23,11 +23,11 @@ set(ASSET_DIR "${CMAKE_CURRENT_SOURCE_DIR}/assets")
 set(TARGET_OUTPUT_DIR $<TARGET_FILE_DIR:App> )
 
 # Add a post-build command to copy assets directory
-#add_custom_command(
-#    TARGET App
-#    POST_BUILD
-#    COMMAND ${CMAKE_COMMAND} -E copy_directory
-#    "${ASSET_DIR}"
-#    "${TARGET_OUTPUT_DIR}/assets"
-#    COMMENT "Copying assets to the output directory"
-#)
+add_custom_command(
+    TARGET App
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    "${ASSET_DIR}"
+    "${TARGET_OUTPUT_DIR}/assets"
+    COMMENT "Copying assets to the output directory"
+)

@@ -35,6 +35,8 @@ namespace Core::Engine {
 
 		Vec2 ProjectPositionToWindow(Vec2 pos);
 
+		bool IsPaused() { return m_isPaused; };
+
 		void TogglePause();
 
 		bool AddCircle(float mass, float radius, float restituion, float friction, bool isStatic, Vec2 initalPosition, float initialAngle, Color color);

@@ -7,10 +7,11 @@
 MenuLayer::MenuLayer()
 {
 
-	m_Buttons.push_back(std::make_unique<Core::Button>("View", [this]() { Core::Application::Get().Engine.BuildScene(SceneType::BINOMIAL_SCENE);  }));
-	m_Buttons.push_back(std::make_unique<Core::Button>("View", [this]() { Core::Application::Get().Engine.BuildScene(SceneType::BINOMIAL_SCENE);  }));
-	m_Buttons.push_back(std::make_unique<Core::Button>("View", [this]() { Core::Application::Get().Engine.BuildScene(SceneType::BINOMIAL_SCENE);  }));
-	m_Buttons.push_back(std::make_unique<Core::Button>("View", [this]() { Core::Application::Get().Engine.BuildScene(SceneType::BINOMIAL_SCENE);  }));
+	m_Cards.push_back(std::make_unique<Core::Card>(std::make_unique<Core::Button>("View", []() { Core::Application::Get().Engine.BuildScene(SceneType::BINOMIAL_SCENE);  }), Core::AssetManager::LoadAssetTexture(AssetType::BINOMIAL_SCENE_IMG), "Binomial Plinko"));
+	/*m_Cards.push_back(std::make_unique<Core::Card>(Core::Button("View", []() { Core::Application::Get().Engine.BuildScene(SceneType::BINOMIAL_SCENE);  }), Core::AssetManager::LoadAssetTexture(AssetType::BINOMIAL_SCENE_IMG), "Binomial Plinko"));*/
+	//m_Cards.push_back(std::make_unique<Core::Button>("View", [this]() { Core::Application::Get().Engine.BuildScene(SceneType::BINOMIAL_SCENE);  }));
+	//m_Cards.push_back(std::make_unique<Core::Button>("View", [this]() { Core::Application::Get().Engine.BuildScene(SceneType::BINOMIAL_SCENE);  }));
+	//m_Cards.push_back(std::make_unique<Core::Button>("View", [this]() { Core::Application::Get().Engine.BuildScene(SceneType::BINOMIAL_SCENE);  }));
 
 	SetRelativePositionOfUI(GetScreenWidth(), GetScreenHeight());
 	 
@@ -30,19 +31,20 @@ void MenuLayer::OnEvent(Core::Event& event)
 void MenuLayer::OnRender()
 {
 
-	for (const auto& button : m_Buttons) {
+	for (const auto& card : m_Cards) {
 
-		DrawTextureRec(button->GetTexture(), button->GetSourceRect(), button->GetPosition(), WHITE);
-		DrawText(button->GetText(), button->GetPosition().x + (button->GetTexture().width / 2 - MeasureText(button->GetText(), FONT_SIZE) / 2), button->GetPosition().y + button->GetTexture().height / 4, FONT_SIZE, WHITE);
+		card->DrawCard();
 	}
 
 }
 
 void MenuLayer::SetRelativePositionOfUI(int screenWidth, int screenHeight)
-{
 
-	for (int i = 0; i < m_Buttons.size(); i++) {
-		m_Buttons[i]->SetPosition((screenWidth / 3) * (i % 2 + 1), (screenHeight / 3) * (i / 2 + 1));
+{
+	for (int i = 0; i < m_Cards.size(); i++) {
+
+		Vector2 cardPos = { (float)(screenWidth / 3) * (i % 2 + 1), (float)(screenHeight / 3) * (i / 2 + 1) };
+		m_Cards[i]->SetPosition(cardPos);
 	}
 
 }
@@ -51,10 +53,10 @@ bool MenuLayer::OnMouseButtonPressed(Core::MouseButtonPressedEvent& event)
 {
 	Vector2 mousePos = GetMousePosition();
 
-	for (const auto& button : m_Buttons) {
-		if (button->isHovered(mousePos)) {
+	for (const auto& card : m_Cards) {
+		if (card->GetButton()->isHovered(mousePos)) {
 
-			button->OnClicked();
+			card->GetButton()->OnClicked();
 			TransitionTo<SimLayer>();
 
 			return true;
@@ -68,8 +70,8 @@ bool MenuLayer::OnMouseMoved(Core::MouseMovedEvent& e)
 {
 	Vector2 mousePos = { e.GetX(), e.GetY() };
 
-	for (const auto& button : m_Buttons) {
-		button->setState(mousePos);
+	for (const auto& card : m_Cards) {
+		card->GetButton()->setState(mousePos);
 	}
 
 	return true;
@@ -77,8 +79,8 @@ bool MenuLayer::OnMouseMoved(Core::MouseMovedEvent& e)
 
 bool MenuLayer::OnMouseScrolled(Core::MouseScrolledEvent& event)
 {
-	for (auto& button : m_Buttons) {
-		button->GetPosition().y += (event.GetDirection() * SCROLL_SPEED);
+	for (auto& card : m_Cards) {
+		//card->GetButton().GetPosition().y += (event.GetDirection() * SCROLL_SPEED);
 	}
 
 	return true;

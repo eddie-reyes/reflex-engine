@@ -615,6 +615,198 @@ SCENES: array of scene objects
           "restitution": 1,
           "friction": 1,
           "isStatic": true
+        },
+        {
+          "type": "box",
+
+          "initialPosition": {
+            "x": 100,
+            "y": 90
+          },
+          "dimensions": {
+            "width": 101,
+            "height": 1
+          },
+          "initialAngle": 0.0,
+          "restitution": 1,
+          "friction": 1,
+          "isStatic": true
+        },
+        {
+          "type": "box",
+
+          "initialPosition": {
+            "x": 50,
+            "y": 70
+          },
+          "dimensions": {
+            "width": 1,
+            "height": 40
+          },
+          "initialAngle": 0.0,
+          "restitution": 1,
+          "friction": 1,
+          "isStatic": true
+        },
+        {
+          "type": "box",
+
+          "initialPosition": {
+            "x": 60,
+            "y": 70
+          },
+          "dimensions": {
+            "width": 1,
+            "height": 40
+          },
+          "initialAngle": 0.0,
+          "restitution": 1,
+          "friction": 1,
+          "isStatic": true
+        },
+        {
+          "type": "box",
+
+          "initialPosition": {
+            "x": 70,
+            "y": 70
+          },
+          "dimensions": {
+            "width": 1,
+            "height": 40
+          },
+          "initialAngle": 0.0,
+          "restitution": 1,
+          "friction": 1,
+          "isStatic": true
+        },
+        {
+          "type": "box",
+
+          "initialPosition": {
+            "x": 80,
+            "y": 70
+          },
+          "dimensions": {
+            "width": 1,
+            "height": 40
+          },
+          "initialAngle": 0.0,
+          "restitution": 1,
+          "friction": 1,
+          "isStatic": true
+        },
+        {
+          "type": "box",
+
+          "initialPosition": {
+            "x": 90,
+            "y": 70
+          },
+          "dimensions": {
+            "width": 1,
+            "height": 40
+          },
+          "initialAngle": 0.0,
+          "restitution": 1,
+          "friction": 1,
+          "isStatic": true
+        },
+        {
+          "type": "box",
+
+          "initialPosition": {
+            "x": 100,
+            "y": 70
+          },
+          "dimensions": {
+            "width": 1,
+            "height": 40
+          },
+          "initialAngle": 0.0,
+          "restitution": 1,
+          "friction": 1,
+          "isStatic": true
+        },
+        {
+          "type": "box",
+
+          "initialPosition": {
+            "x": 110,
+            "y": 70
+          },
+          "dimensions": {
+            "width": 1,
+            "height": 40
+          },
+          "initialAngle": 0.0,
+          "restitution": 1,
+          "friction": 1,
+          "isStatic": true
+        },
+        {
+          "type": "box",
+
+          "initialPosition": {
+            "x": 120,
+            "y": 70
+          },
+          "dimensions": {
+            "width": 1,
+            "height": 40
+          },
+          "initialAngle": 0.0,
+          "restitution": 1,
+          "friction": 1,
+          "isStatic": true
+        },
+        {
+          "type": "box",
+
+          "initialPosition": {
+            "x": 130,
+            "y": 70
+          },
+          "dimensions": {
+            "width": 1,
+            "height": 40
+          },
+          "initialAngle": 0.0,
+          "restitution": 1,
+          "friction": 1,
+          "isStatic": true
+        },
+        {
+          "type": "box",
+
+          "initialPosition": {
+            "x": 140,
+            "y": 70
+          },
+          "dimensions": {
+            "width": 1,
+            "height": 40
+          },
+          "initialAngle": 0.0,
+          "restitution": 1,
+          "friction": 1,
+          "isStatic": true
+        },
+        {
+          "type": "box",
+
+          "initialPosition": {
+            "x": 150,
+            "y": 70
+          },
+          "dimensions": {
+            "width": 1,
+            "height": 40
+          },
+          "initialAngle": 0.0,
+          "restitution": 1,
+          "friction": 1,
+          "isStatic": true
         }
 
 

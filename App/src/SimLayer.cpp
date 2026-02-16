@@ -133,6 +133,8 @@ void SimLayer::TickScene() {
 
 	case SceneType::BINOMIAL_SCENE:
 
+		if (Core::Application::Get().Engine.IsPaused()) return;
+
 		m_TimeAccumulator += GetFrameTime();
 
 		if (m_TimeAccumulator >= 0.5) {

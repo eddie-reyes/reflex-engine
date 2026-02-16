@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Layer.h"
-#include "Button.h"
+#include "Card.h"
 #include "InputEvents.h"
 
 
@@ -29,7 +29,7 @@ private:
 
 	bool OnWindowResize(Core::WindowResizeEvent& event);
 
-	std::vector<std::unique_ptr<Core::Button>> m_Buttons;
+	std::vector<std::unique_ptr<Core::Card>> m_Cards;
 
 	int m_SceneHeight{0};
 

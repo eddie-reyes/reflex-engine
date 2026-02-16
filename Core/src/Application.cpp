@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "InputEvents.h"
+#include "AssetManager.h"
 #include <ranges>
 #include <iostream>
 
@@ -23,6 +24,7 @@ namespace Core {
 		SetWindowMinSize(MIN_SCREEN_WIDTH, MIN_SCREEN_HEIGHT);
 		SetTargetFPS(TARGET_FPS);
 
+		Core::AssetManager::LoadTextures();
 	}
 
 	Application::~Application() {
