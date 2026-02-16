@@ -6,7 +6,7 @@ namespace Core {
 	{
 		m_Texture = AssetManager::LoadAssetTexture(AssetType::BUTTON_TEXTURE);
 		m_SourceRect = { 0.0f, 0.0f, (float)m_Texture.width, (float)m_Texture.height }; 
-		m_Position = { m_SourceRect.x, m_SourceRect.y };
+		m_Position = { 0, 0 };
 		m_Text = m_DefaultText = text;
 		m_Type = type;
 		m_isToggled = false;

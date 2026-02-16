@@ -1,6 +1,7 @@
 #include "Engine.h"
 #include "Collision.h"
 #include "Impulse.h"
+#include <iostream>
 
 namespace Core::Engine {
 
@@ -149,12 +150,25 @@ namespace Core::Engine {
 
     bool Engine::AddCircle(float mass, float radius, float restituion, float friction, bool isStatic, Vec2 initialPosition, float initialAngle, Color color) {
 
+        if (radius <= 0) {
+
+            std::cerr << "[ERROR] Invalid Shape" << std::endl;
+            return false;
+        }
+
         m_Scene.push_back(std::make_unique<Circle>(mass, restituion, friction, isStatic, ProjectPositionToWindow(initialPosition), initialAngle, radius * m_Bounds / SCENE_BOUNDS, color));
         
         return true;
     }
 
     bool Engine::AddBox(float mass, Vec2 dimensions, float restituion, float friction, bool isStatic, Vec2 initialPosition, float initialAngle, Color color) {
+
+        if (dimensions.x <= 0 || dimensions.y <= 0) {
+
+            std::cerr << "[ERROR] Invalid Shape" << std::endl;
+            return false;
+
+        }
 
         m_Scene.push_back(std::make_unique<Box>(mass, restituion, friction, isStatic, ProjectPositionToWindow(initialPosition), initialAngle, dimensions, color));
 
