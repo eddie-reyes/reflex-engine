@@ -50,12 +50,16 @@ namespace Core {
 
 		const char * GetText() { return m_Text; };
 
+		const char * GetDefaultText() { return m_DefaultText; };
+
 		void SetPosition(float x, float y) { 
 			
 			m_Position.x = x - (float)(m_Texture.width / 2);
 			m_Position.y = y - (float)(m_Texture.height / 2);
 
 		}
+
+		void SetText(const char* text);
 
 		onClickedFn OnClicked;
 
@@ -73,6 +77,8 @@ namespace Core {
 		ButtonType m_Type;
 
 		const char * m_Text;
+
+		const char* m_DefaultText;
 
 		bool m_isToggled;
 

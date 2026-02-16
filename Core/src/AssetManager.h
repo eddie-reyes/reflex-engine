@@ -3,11 +3,13 @@
 #include <string>
 #include <filesystem>
 
+
 enum class AssetType {
 
 	None = 0,
 	BUTTON_TEXTURE,
-	BUTTON_TEXTURE_HOVERED
+	BUTTON_TEXTURE_HOVERED,
+	BINOMIAL_SCENE_IMG
 
 };
 
@@ -27,6 +29,11 @@ namespace Core::AssetManager {
 		case AssetType::BUTTON_TEXTURE_HOVERED:
 
 			path = "assets/button_h.png";
+			break;
+
+		case AssetType::BINOMIAL_SCENE_IMG:
+
+			path = "assets/BinomialDistribution.png";
 			break;
 			
 		default:

@@ -113,8 +113,9 @@ namespace Core::Engine {
     void Engine::ResetScene() {
 
         ClearScene();
+        JSONParser::BuildScenesFromJSON();
 		BuildScene(m_CurrentScene);
-        MapSceneCoordsToWindow(200.0f, m_Bounds);
+        MapSceneCoordsToWindow(SCENE_BOUNDS, m_Bounds);
 
     }
 
@@ -148,7 +149,7 @@ namespace Core::Engine {
 
     bool Engine::AddCircle(float mass, float radius, float restituion, float friction, bool isStatic, Vec2 initialPosition, float initialAngle, Color color) {
 
-        m_Scene.push_back(std::make_unique<Circle>(mass, restituion, friction, isStatic, ProjectPositionToWindow(initialPosition), initialAngle, radius, color));
+        m_Scene.push_back(std::make_unique<Circle>(mass, restituion, friction, isStatic, ProjectPositionToWindow(initialPosition), initialAngle, radius * m_Bounds / SCENE_BOUNDS, color));
         
         return true;
     }

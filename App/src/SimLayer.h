@@ -34,4 +34,6 @@ private:
 
 	bool m_IsSceneTickable = true;
 
+	float m_TimeAccumulator = 0.0;
+
 };

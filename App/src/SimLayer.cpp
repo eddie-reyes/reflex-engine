@@ -1,7 +1,7 @@
 #include "SimLayer.h"
 #include "MenuLayer.h"
 #include "Application.h"
-
+#include <iostream>
 
 SimLayer::SimLayer()
 {
@@ -14,7 +14,12 @@ SimLayer::SimLayer()
 	//reset button
 	m_Buttons.push_back(std::make_unique<Core::Button>("Reset", [this]() {
 		Core::Application::Get().Engine.ResetScene(); 
-		m_IsSceneTickable = true;		
+		m_IsSceneTickable = true;
+
+		auto it = m_Buttons.begin();
+		it = std::find_if(m_Buttons.begin(), m_Buttons.end(), [](std::unique_ptr<Core::Button>& b) { return b->GetType() == ButtonType::TOGGLEABLE; });
+		(*it)->SetText((*it)->GetDefaultText());
+
 	}));
 
 	//back to menu button
@@ -76,7 +81,7 @@ void SimLayer::SetRelativePositionOfUI(int screenWidth, int screenHeight)
 {
 
 	for (int i = 0; i < m_Buttons.size(); i++) {
-		m_Buttons[i]->SetPosition((screenWidth / 4) * (i + 1), screenHeight - (screenHeight / 8));
+		m_Buttons[i]->SetPosition((screenWidth / 4) * (i + 1), screenHeight - m_Buttons[i]->GetSourceRect().height);
 	}	
     
 }
@@ -128,11 +133,13 @@ void SimLayer::TickScene() {
 
 	case SceneType::BINOMIAL_SCENE:
 
-		m_IsSceneTickable = false;
-		for (int i = 0; i < 6; i ++) {
+		m_TimeAccumulator += GetFrameTime();
 
-			Core::Application::Get().Engine.AddCircle(1, 10, 0.5, 1, false, { (float)GetRandomValue(95, 105), 0.0f}, 0.0f, RED);
+		if (m_TimeAccumulator >= 0.5) {
+			m_TimeAccumulator = 0.0;
 
+			Core::Application::Get().Engine.AddCircle(1, 1, 0.5, 1, false, { (float)GetRandomValue(95, 105), 0}, 0, RED);
+				
 		}
 		
 
