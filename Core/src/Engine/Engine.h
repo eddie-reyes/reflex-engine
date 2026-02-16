@@ -39,9 +39,9 @@ namespace Core::Engine {
 
 		void TogglePause();
 
-		bool AddCircle(float mass, float radius, float restituion, float friction, bool isStatic, Vec2 initalPosition, float initialAngle, Color color);
+		bool AddCircle(float mass, float radius, float restituion, float friction, bool isStatic, Vec2 initalPosition, float initialAngle, Color color, int identifier);
 
-		bool AddBox(float mass, Vec2 dimensions, float restituion, float friction, bool isStatic, Vec2 initalPosition, float initialAngle, Color color);
+		bool AddBox(float mass, Vec2 dimensions, float restituion, float friction, bool isStatic, Vec2 initalPosition, float initialAngle, Color color, int identifier);
 
 	private:
 

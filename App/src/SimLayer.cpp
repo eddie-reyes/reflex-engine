@@ -17,7 +17,7 @@ SimLayer::SimLayer()
 		m_IsSceneTickable = true;
 
 		auto it = m_Buttons.begin();
-		it = std::find_if(m_Buttons.begin(), m_Buttons.end(), [](std::unique_ptr<Core::Button>& b) { return b->GetType() == ButtonType::TOGGLEABLE; });
+		it = std::find_if(it, m_Buttons.end(), [](std::unique_ptr<Core::Button>& b) { return b->GetType() == ButtonType::TOGGLEABLE; });
 		(*it)->SetText((*it)->GetDefaultText());
 
 	}));
@@ -125,7 +125,9 @@ bool SimLayer::OnWindowResize(Core::WindowResizeEvent& event)
 
 void SimLayer::TickScene() {
 
-	if (!m_IsSceneTickable) return;
+	if (Core::Application::Get().Engine.IsPaused()) return;
+
+	m_TimeAccumulator += GetFrameTime();
 
 	SceneType currentScene = Core::Application::Get().Engine.GetCurrentScene();
 
@@ -135,16 +137,34 @@ void SimLayer::TickScene() {
 
 		if (Core::Application::Get().Engine.IsPaused()) return;
 
-		m_TimeAccumulator += GetFrameTime();
 
 		if (m_TimeAccumulator >= 0.5) {
 			m_TimeAccumulator = 0.0;
 
-			Core::Application::Get().Engine.AddCircle(1, 1, 0.5, 1, false, { (float)GetRandomValue(95, 105), 0}, 0, RED);
+			Core::Application::Get().Engine.AddCircle(1, 1, 0.5, 1, false, { (float)GetRandomValue(95, 105), 0}, 0, RED, 0);
 				
 		}
+		break;
 		
 
+	case SceneType::DEMOLITION_SCENE:
+
+		auto& bodies = Core::Application::Get().Engine.GetSceneBodies();
+		auto it = bodies.begin();
+		it = std::find_if(it, bodies.end(), [](std::unique_ptr<Core::Engine::Body>& b) { return b->id == 1; });
+
+		(*it)->AngularVelociy = (GetFrameTime() * SIM_SPEED) * -15;
+		(*it)->Angle += (*it)->AngularVelociy / 15;
+
+		if (m_TimeAccumulator >= 2) {
+			m_TimeAccumulator = 0.0;
+
+			Core::Application::Get().Engine.AddCircle(0.1, 1, 0.5, 0.5, false, { (float)GetRandomValue(55, 60), 60 }, 0, RED, 0);
+
+		}
+
+		break;
 	}
+
 
 }

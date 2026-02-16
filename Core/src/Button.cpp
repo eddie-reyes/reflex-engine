@@ -38,8 +38,6 @@ namespace Core {
 			m_Texture = AssetManager::LoadAssetTexture(AssetType::BUTTON_TEXTURE);
 		}
 
-
-
 	}
 
 	void Button::ToggleText() {

@@ -10,8 +10,8 @@ MenuLayer::MenuLayer()
 	std::unique_ptr<Core::Button> btn1 = std::make_unique<Core::Button>("View", []() { Core::Application::Get().Engine.BuildScene(SceneType::BINOMIAL_SCENE);  });
 	m_Cards.push_back(std::make_unique<Core::Card>(std::move(btn1), Core::AssetManager::LoadAssetTexture(AssetType::BINOMIAL_SCENE_IMG), "Binomial Plinko"));
 
-	//std::unique_ptr<Core::Button> btn2 = std::make_unique<Core::Button>("View", []() { Core::Application::Get().Engine.BuildScene(SceneType::BINOMIAL_SCENE);  });
-	//m_Cards.push_back(std::make_unique<Core::Card>(std::move(btn2), Core::AssetManager::LoadAssetTexture(AssetType::BINOMIAL_SCENE_IMG), "Binomial Plinko"));
+	std::unique_ptr<Core::Button> btn2 = std::make_unique<Core::Button>("View", []() { Core::Application::Get().Engine.BuildScene(SceneType::DEMOLITION_SCENE);  });
+	m_Cards.push_back(std::make_unique<Core::Card>(std::move(btn2), Core::AssetManager::LoadAssetTexture(AssetType::BINOMIAL_SCENE_IMG), "Demolition"));
 	
 	SetRelativePositionOfUI(GetScreenWidth(), GetScreenHeight());
 	 

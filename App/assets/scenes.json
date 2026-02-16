@@ -811,6 +811,127 @@ SCENES: array of scene objects
 
 
       ]
+    },
+    {
+      "name": "DemolitionScene",
+      "gravity": {
+        "x": 0,
+        "y": 9.81
+      },
+      "bodies": [
+        {
+          "type": "box",
+
+          "initialPosition": {
+            "x": 50,
+            "y": 80
+          },
+          "dimensions": {
+            "width": 2,
+            "height": 40
+          },
+          "initialAngle": 60.0,
+          "restitution": 1,
+          "friction": 1,
+          "isStatic": true
+        },
+        {
+          "type": "box",
+
+          "initialPosition": {
+            "x": 30,
+            "y": 85
+          },
+          "dimensions": {
+            "width": 2,
+            "height": 13.4
+          },
+          "initialAngle": -30.0,
+          "restitution": 1,
+          "friction": 1,
+          "isStatic": true
+        },
+        {
+          "type": "box",
+          "id": 1,
+          "initialPosition": {
+            "x": 35,
+            "y": 80
+          },
+          "dimensions": {
+            "width": 2,
+            "height": 13.4
+          },
+          "initialAngle": 0.0,
+          "restitution": 0,
+          "friction": 0,
+          "isStatic": true
+        },
+        {
+          "type": "box",
+          "initialPosition": {
+            "x": 150,
+            "y": 100
+          },
+          "dimensions": {
+            "width": 50,
+            "height": 2
+          },
+          "initialAngle": 0.0,
+          "restitution": 0.5,
+          "friction": 0.5,
+          "isStatic": true
+        },
+        {
+          "type": "box",
+          "mass":0.5,
+          "initialPosition": {
+            "x": 140,
+            "y": 90
+          },
+          "dimensions": {
+            "width": 2,
+            "height": 20
+          },
+          "initialAngle": 0.0,
+          "restitution": 0.5,
+          "friction": 0.5,
+          "isStatic": false
+        },
+        {
+          "type": "box",
+          "mass": 0.5,
+          "initialPosition": {
+            "x": 160,
+            "y": 90
+          },
+          "dimensions": {
+            "width": 2,
+            "height": 20
+          },
+          "initialAngle": 0.0,
+          "restitution": 0.5,
+          "friction": 0.5,
+          "isStatic": false
+        },
+        {
+          "type": "box",
+          "mass": 0.5,
+          "initialPosition": {
+            "x": 150,
+            "y": 80
+          },
+          "dimensions": {
+            "width": 25,
+            "height": 2
+          },
+          "initialAngle": 0.0,
+          "restitution": 0.5,
+          "friction": 0.5,
+          "isStatic": false
+        }
+
+      ]
     }
   ]
 }

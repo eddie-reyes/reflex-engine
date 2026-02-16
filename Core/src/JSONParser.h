@@ -9,17 +9,20 @@ constexpr float DEG_TO_RAD = 0.0174533; //need for conversion to radians, as JSO
 
 enum SceneType {
 
-	BINOMIAL_SCENE
+	BINOMIAL_SCENE,
+	DEMOLITION_SCENE
 
 };
 
 NLOHMANN_JSON_SERIALIZE_ENUM(SceneType, {
-	{BINOMIAL_SCENE, "BinomialScene"}
+	{BINOMIAL_SCENE, "BinomialScene"},
+	{DEMOLITION_SCENE, "DemolitionScene"}
 });
 
 struct ParsedJSONBodyData {
 	
 	Core::Engine::ShapeType type;
+	int id;
 	float mass;
 	float friction;
 	Core::Engine::Vec2 initialPosition;
@@ -81,6 +84,7 @@ namespace Core::JSONParser {
 			ParsedJSONBodyData bodyData{};
 
 			bodyData.mass = (body["mass"]).is_null() ? 0.0f : (float)body["mass"];
+			bodyData.id = (body["id"]).is_null() ? 0 : (int)body["id"];
 			bodyData.restitution = body["restitution"];
 			bodyData.friction = body["friction"];
 			bodyData.isStatic = body["isStatic"];
