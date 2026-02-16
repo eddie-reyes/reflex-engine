@@ -17,7 +17,7 @@ namespace Core {
 
 	Button::~Button()
 	{
-		UnloadTexture(m_Texture);
+		//UnloadTexture(m_Texture);
 	}
 
 	bool Button::isHovered(Vector2& mousePos) const

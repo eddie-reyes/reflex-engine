@@ -24,7 +24,7 @@ struct TextureAsset {
 
 namespace Core::AssetManager {
 
-	inline const std::vector<std::pair<AssetType, std::string>> texturePaths = { {AssetType::BUTTON_TEXTURE, "assets/button.png"}, {AssetType::BUTTON_TEXTURE_HOVERED, "assets/button_h.png"}, {AssetType::BINOMIAL_SCENE_IMG, "assets/button_h.png"} };
+	inline const std::vector<std::pair<AssetType, std::string>> texturePaths = { {AssetType::BUTTON_TEXTURE, "assets/button.png"}, {AssetType::BUTTON_TEXTURE_HOVERED, "assets/button_h.png"}, {AssetType::BINOMIAL_SCENE_IMG, "assets/BinomialDistribution.png"} };
 
 	inline std::vector<TextureAsset> textureAssets;
 
