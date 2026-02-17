@@ -153,13 +153,13 @@ void SimLayer::TickScene() {
 		auto it = bodies.begin();
 		it = std::find_if(it, bodies.end(), [](std::unique_ptr<Core::Engine::Body>& b) { return b->id == 1; });
 
-		(*it)->AngularVelociy = (GetFrameTime() * SIM_SPEED) * -15;
-		(*it)->Angle += (*it)->AngularVelociy / 15;
+		(*it)->AngularVelociy = (GetFrameTime() * SIM_SPEED) * -10;
+		(*it)->Angle += (*it)->AngularVelociy / 10;
 
 		if (m_TimeAccumulator >= 2) {
 			m_TimeAccumulator = 0.0;
 
-			Core::Application::Get().Engine.AddCircle(0.1, 1, 0.5, 0.5, false, { (float)GetRandomValue(55, 60), 60 }, 0, RED, 0);
+			Core::Application::Get().Engine.AddCircle(10, 2, 0.5, 0.5, false, { (float)GetRandomValue(55, 60), 60 }, 0, RED, 0);
 
 		}
 

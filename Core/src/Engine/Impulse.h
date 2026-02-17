@@ -23,7 +23,7 @@ namespace Core::Engine
             Vec2 rv = (B.Velocity + Cross(B.AngularVelociy, rb)) - (A.Velocity + Cross(A.AngularVelociy, ra));
             float VelocityAlongNormal = Dot(rv, m.Normal);
 
-            if (VelocityAlongNormal > 0) return;  //separating
+            if (VelocityAlongNormal > 0) continue;  //separating
 
             float e = std::min(A.Restitution, B.Restitution);
             if (std::fabs(VelocityAlongNormal) < 0.5) e = 0.0f;
@@ -32,7 +32,7 @@ namespace Core::Engine
             float rbCrossN = Cross(rb, m.Normal);
 
             float invMassSum = A.invMass + B.invMass + (raCrossN * raCrossN) * A.invInertia + (rbCrossN * rbCrossN) * B.invInertia;
-            if (invMassSum <= 0) return;
+            if (invMassSum <= 0) continue;
 
             float j = -(1.0f + e) * VelocityAlongNormal;
             j /= invMassSum;
@@ -54,7 +54,7 @@ namespace Core::Engine
             rv = (B.Velocity + Cross(B.AngularVelociy, rb)) - (A.Velocity + Cross(A.AngularVelociy, ra));
             Vec2 tangent = rv - m.Normal * Dot(rv, m.Normal);
             float tLen = Len(tangent);
-            if (tLen < MIN_VEC_LEN) return;
+            if (tLen < MIN_VEC_LEN) continue;
 
             tangent = Normalize(tangent);
 

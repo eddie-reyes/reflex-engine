@@ -11,7 +11,8 @@ enum class AssetType {
 	None = 0,
 	BUTTON_TEXTURE,
 	BUTTON_TEXTURE_HOVERED,
-	BINOMIAL_SCENE_IMG
+	BINOMIAL_SCENE_IMG,
+	DEMOLITION_IMG
 
 };
 
@@ -24,7 +25,7 @@ struct TextureAsset {
 
 namespace Core::AssetManager {
 
-	inline const std::vector<std::pair<AssetType, std::string>> texturePaths = { {AssetType::BUTTON_TEXTURE, "assets/button.png"}, {AssetType::BUTTON_TEXTURE_HOVERED, "assets/button_h.png"}, {AssetType::BINOMIAL_SCENE_IMG, "assets/BinomialDistribution.png"} };
+	inline const std::vector<std::pair<AssetType, std::string>> texturePaths = { {AssetType::BUTTON_TEXTURE, "assets/button.png"}, {AssetType::BUTTON_TEXTURE_HOVERED, "assets/button_h.png"}, {AssetType::BINOMIAL_SCENE_IMG, "assets/BinomialDistribution.png"}, {AssetType::DEMOLITION_IMG, "assets/Demolition.png"} };
 
 	inline std::vector<TextureAsset> textureAssets;
 

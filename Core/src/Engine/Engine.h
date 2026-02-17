@@ -5,8 +5,8 @@
 #include "JSONParser.h"
 
 constexpr auto SIM_SPEED = 10.0f; //speed factor
-constexpr auto IMPULSE_SOLVER_ITER = 10; //impulse solver
-constexpr auto SUBSTEPS = 5; //substeps per tick of simulation
+constexpr auto IMPULSE_SOLVER_ITER = 12; //impulse solver
+constexpr auto SUBSTEPS = 10; //substeps per tick of simulation
 constexpr auto ANGULAR_DAMPING = 0.98f; //prevents bodies from spinning indefinitely
 constexpr auto SCENE_BOUNDS = 200.0; //max x,y coord
 

@@ -404,7 +404,7 @@ namespace Core::Engine {
 
     inline void PositionalCorrection(Body& A, Body& B, const Manifold& m) {
         const float percent = 0.2f; // 20%
-        const float slop = 0.01f;
+        const float slop = 0.05f;
 
         float invMassSum = A.invMass + B.invMass;
         if (invMassSum <= 0) return;
