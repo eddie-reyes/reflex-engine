@@ -45,6 +45,6 @@ from that directory. This will generate relevant project files which you can the
 
 ---
 
-## Preivew
+## Preview
 <p align="center"><img width="256" height="256" alt="BinomialDistribution" src="https://github.com/user-attachments/assets/5b918063-4c71-4a66-8468-cab1ac072d5f" />&nbsp&nbsp&nbsp&nbsp&nbsp<img width="256" height="256" alt="Demolition" src="https://github.com/user-attachments/assets/2a8ce0da-0eaa-4127-a337-49ac604996d7" /></p>
 
